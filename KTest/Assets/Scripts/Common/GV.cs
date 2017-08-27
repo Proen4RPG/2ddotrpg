@@ -45,9 +45,23 @@ public class GV
         #region Player
         public List<PlayerParam> Players;
         #endregion
+
+        #region Items
+        // 所持している装備のIDの配列
+        public List<int> Equipments;
+        #endregion
     }
+
     static GameData gameData;
-    static public GameData GData { get { return gameData; } }
+    static public GameData GData 
+        {
+            get {
+                if (gameData == null) {
+                    initialize();
+                }
+            return gameData;
+        }
+    }
 
     [Serializable]
     public class SystemData
@@ -79,6 +93,21 @@ public class GV
         SaveData.setSlot(0);
         SaveData.load();
         systemData = SaveData.getClass<SystemData>("SystemData", null);
+
+        // 仮で作成
+        gameData = new GameData();
+
+        // 装備の仮データ読み込み
+        {
+            gameData.Equipments = new List<int>();
+            // 仮で全装備を ID + 1 所持している状態にする
+            var equipments = EquipmentManager.getEquipmentList();
+            foreach (var equipment in equipments) {
+                for (int i = 0; i <= equipment.ID; ++i) {
+                    gameData.Equipments.Add(equipment.ID);
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -94,9 +123,11 @@ public class GV
         var player = new PlayerParam();
         gameData.Players.Add(player);
 
+
         SaveData.setClass("GameData", GData);
         SaveData.save();
     }
+
     static public void load(int slot = 1)
     {
         SaveData.setSlot(slot);
