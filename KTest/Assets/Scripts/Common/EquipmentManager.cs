@@ -37,7 +37,7 @@ public class EquipmentManager
         Head,
         Body,
         Shoes,
-        FirstAccessory
+        Accessory
     }
 
     static EquipmentManagerBase manager {
@@ -100,6 +100,17 @@ public class EquipmentManager
             .ToArray());
     }
 
+    /// <summary>
+    /// 装備を取得
+    /// 戻り値で値を変更することができるが、行わないように
+    /// </summary>
+    /// <param name="equipmentID">取得するID</param>
+    /// <returns>装備</returns>
+    static public Equipment getEquipment(int equipmentID)
+    {
+        return manager.equipments[equipmentID];
+    }
+
     class EquipmentManagerBase
     {
         public Dictionary<int, Equipment> equipments;
@@ -110,7 +121,7 @@ public class EquipmentManager
 
             string fileName = "EquipmentList";
             var jsonData = Resources.Load<TextAsset>("Data/" + fileName).text;
- 
+
             var equipmentList = JsonUtility.FromJson<Serialization<Equipment>>(jsonData).Target;
 
             // 装備を ID で探索できるようにする
