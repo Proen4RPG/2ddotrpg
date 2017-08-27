@@ -1,14 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-//using UnityEditor;
 
-/****************************************************************
-DebugDisplay.cs : デバッグ表示クラス
-****************************************************************/
+/// <summary>
+/// DebugDisplay.cs : デバッグ表示クラス
+/// </summary>
 public class DebugDisplayLog : MonoBehaviour {
 
-	static string str;
+	//static string str;
 
 	private void Start( ) {
 		this.oneSecondTime = 0f;
@@ -22,7 +21,7 @@ public class DebugDisplayLog : MonoBehaviour {
 
 		/* Editor の Quit 処理 */
 		if( Input.GetKey( KeyCode.Escape ) ) {
-			//EditorApplication.isPlaying = false;
+			//UnityEditor.EditorApplication.isPlaying = false;
 			//ClearConsole( );
 
 		}
@@ -46,7 +45,7 @@ public class DebugDisplayLog : MonoBehaviour {
 		}
 
 		// structure debug string
-		this.debugString = str;
+		this.debugString = "セーブデータキー : \n" /* str */;
 		int count = DebugDisplayLog.displayLog.Count;
 
 		for ( int i = 0; i < DebugDisplayLog.displayLog.Count; i++ ) {
@@ -55,7 +54,7 @@ public class DebugDisplayLog : MonoBehaviour {
 
 		}
 
-		DebugDisplayLog.displayLog.Clear( );
+		//DebugDisplayLog.displayLog.Clear( );
 
 	}
 
@@ -72,7 +71,7 @@ public class DebugDisplayLog : MonoBehaviour {
 	}
 
 	static public void SetDebugString( string s ) {
-		str = s;
+		//str = s;
 
 
 	}
