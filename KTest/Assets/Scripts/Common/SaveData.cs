@@ -289,8 +289,7 @@ public class SaveData
         #region Getter
         public float getInt(string key, int defaultValue)
         {
-            if (!saveData.ContainsKey(key))
-            {
+            if (!saveData.ContainsKey(key)) {
                 return defaultValue;
             }
 
@@ -298,8 +297,7 @@ public class SaveData
         }
         public float getFloat(string key, float defaultValue)
         {
-            if (!saveData.ContainsKey(key))
-            {
+            if (!saveData.ContainsKey(key)) {
                 return defaultValue;
             }
 
@@ -307,8 +305,7 @@ public class SaveData
         }
         public bool getBool(string key, bool defaultValue)
         {
-            if (!saveData.ContainsKey(key))
-            {
+            if (!saveData.ContainsKey(key)) {
                 return defaultValue;
             }
 
@@ -316,8 +313,7 @@ public class SaveData
         }
         public string getString(string key, string defaultValue = "")
         {
-            if (!saveData.ContainsKey(key))
-            {
+            if (!saveData.ContainsKey(key)) {
                 return defaultValue;
             }
 
@@ -325,8 +321,7 @@ public class SaveData
         }
         public T getClass<T>(string key, T defaultValue) where T : class, new()
         {
-            if (!saveData.ContainsKey(key))
-            {
+            if (!saveData.ContainsKey(key)) {
                 return defaultValue;
             }
 
@@ -337,8 +332,7 @@ public class SaveData
         }
         public List<T> getList<T>(string key, List<T> defaultValue)
         {
-            if (!saveData.ContainsKey(key))
-            {
+            if (!saveData.ContainsKey(key)) {
                 return defaultValue;
             }
 
@@ -354,7 +348,7 @@ public class SaveData
                 Directory.CreateDirectory(@savePath_);
             }
             BinaryWriter bw = new BinaryWriter(File.OpenWrite(savePath_ + fileName_));
-            var str = JsonUtility.ToJson(new Serialization(saveData));
+            var str = JsonUtility.ToJson(new Serialization<string, string>(saveData));
             var data = rijndael.encryption(str);
             bw.Write(data.Length);
             bw.Write(data);
@@ -373,7 +367,7 @@ public class SaveData
             var data = br.ReadBytes(size);
             br.Close();
             var str = rijndael.decryption(data);
-            var temp = JsonUtility.FromJson<Serialization>(str);
+            var temp = JsonUtility.FromJson<Serialization<string, string>>(str);
             saveData = temp.Target;
             return true;
         }
@@ -397,63 +391,6 @@ public class SaveData
         public List<string> getKeys()
         {
             return saveData.Keys.ToList<string>();
-        }
-
-        [Serializable]
-        class Serialization<T>
-        {
-            [SerializeField]
-            List<T> target_;
-            public List<T> Target
-            {
-                get { return target_; }
-            }
-
-            public Serialization(List<T> target)
-            {
-                target_ = target;
-            }
-        }
-        /// <summary>
-        /// Serializa 用のクラス
-        /// </summary>
-        [Serializable]
-        class Serialization : ISerializationCallbackReceiver
-        {
-            [SerializeField]
-            List<string> keys;
-            [SerializeField]
-            List<string> values;
-
-            Dictionary<string, string> target_;
-            public Dictionary<string, string> Target
-            {
-                get { return target_; }
-            }
-
-            public Serialization(Dictionary<string, string> target)
-            {
-                target_ = target;
-            }
-
-            public void OnBeforeSerialize()
-            {
-                keys = new List<string>(target_.Keys);
-                values = new List<string>(target_.Values);
-            }
-
-            public void OnAfterDeserialize()
-            {
-                target_ = keys.Select((key, index) =>
-                {
-                    var value = values[index];
-                    return new { key, value };
-                })
-                .ToDictionary(x => x.key, x => x.value);
-
-                keys.Clear();
-                values.Clear();
-            }
         }
     }
 }
