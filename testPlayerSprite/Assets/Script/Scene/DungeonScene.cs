@@ -3,19 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/*===============================================================*/
 /// <summary>
-/// DungeonScene.cs : ダンジョン管理クラス
+/// @brief ダンジョン管理クラス
 /// </summary>
+/*===============================================================*/
 public class DungeonScene : MonoBehaviour {
 
 	public GameObject imgBack; /* ダンジョンシーン背景 */
 	public bool fadeFlg;
 	private int encounter = 0;
 
+	public void Awake( ) {
+		GameManager.SetGameState( GameManager.GameState.DUNGEON );
+
+	}
 	// Use this for initialization
 	void Start( ) {
-		//GameManager.SetGameState( GameManager.GameState.BATTLE );
-		Debug.Log( "DungeonBattleSceneClass!" );
+		// 呼び出されたときに, ゲーム状態を更新する
+		//GameManager.SetGameState( GameManager.GameState.DUNGEON );
+		Debug.Log( "DungeonClass!" );
 
 
 	}
@@ -54,7 +61,9 @@ public class DungeonScene : MonoBehaviour {
 		if ( 0.0f <= color.a ) color.a -= 0.01f;   // RGBのアルファ値(透明度の値)
 		else {
 			fadeFlg = false;
-			SceneManager.LoadScene( "BattleScene" );
+			// フェードアウトが完了したら, ゲーム状態を更新する
+			GameManager.SetGameState( GameManager.GameState.BATTLE );
+			//SceneManager.LoadScene( "BattleScene" );
 
 		}
 		renderer.color = color; // 変更した色情報に変更

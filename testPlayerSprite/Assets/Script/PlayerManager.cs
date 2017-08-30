@@ -2,42 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*===============================================================*/
 /// <summary>
-/// PlayerManager.cs : Player管理クラス
+/// @brief Player管理クラス
 /// </summary>
+/*===============================================================*/
 public class PlayerManager : MonoBehaviour {
-
-	/// <summary>
-	/// キャラクターのステータスキーです
-	/// GameData.setString( KEY, DATA ) などで使います
-	/// </summary>
-	public enum KEY {
-		/* start */
-		Character01_NAME,
-		Character01_HP,
-		Character01_MP,
-		/*end */
-
-		/* start */
-		Character02_NAME,
-		Character02_HP,
-		Character02_MP,
-		/* end */
-
-		/* start */
-		Character03_NAME,
-		Character03_HP,
-		Character03_MP,
-		/* end */
-
-		/* start */
-		Character04_NAME,
-		Character04_HP,
-		Character04_MP
-		/* end */
-
-
-	}
 
 	static private Vector3 move = new Vector3( ); /* Player の 座右移動 */
 

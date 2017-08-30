@@ -82,6 +82,7 @@
     <Compile Include="Assets\Script\CSV\CSVRecord.cs" />
     <Compile Include="Assets\Script\CSV\CSVTable.cs" />
     <Compile Include="Assets\Script\DebugDisplayLog.cs" />
+    <Compile Include="Assets\Script\EnemyManager.cs" />
     <Compile Include="Assets\Script\GameManager.cs" />
     <Compile Include="Assets\Script\PlayerManager.cs" />
     <Compile Include="Assets\Script\Save\GV.cs" />

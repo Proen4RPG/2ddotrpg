@@ -45,18 +45,10 @@ public class GV
         #region Player
         public List<PlayerParam> Players;
 		#endregion
-
-		/* セーブデータテスト */
+		
 		#region ParamBase
-		static public string ID;
-		static public string Name;
+		public string ID;
 		#endregion
-
-		#region PlayerParam
-		static public int HP;
-		static public int MP;
-		#endregion
-		/************************/
 	}
 	static GameData gameData;
     static public GameData GData { get { return gameData; } }
@@ -101,7 +93,7 @@ public class GV
     {
         gameData = new GameData();
         gameData.playTime = 20;
-		//gameData.ID = "Character01";
+		gameData.ID = "Character01";
 
         gameData.Players = new List<PlayerParam>();
         var player = new PlayerParam();
@@ -117,13 +109,6 @@ public class GV
         gameData = SaveData.getClass<GameData>("GameData", null);
 
         Debug.Log(gameData.playTime);
-
-		/* セーブデータテスト */
-		Debug.Log( "ID : " + GameData.ID );
-		Debug.Log( "Name : " + GameData.Name );
-		Debug.Log( "HP : " + GameData.HP );
-		Debug.Log( "MP : " + GameData.MP );
-		/**********************************/
 	}
     #endregion
 }

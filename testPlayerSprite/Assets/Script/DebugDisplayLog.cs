@@ -2,9 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 
+/*===============================================================*/
 /// <summary>
-/// DebugDisplay.cs : デバッグ表示クラス
+/// @brief デバッグ表示クラス
 /// </summary>
+/// /*===============================================================*/
 public class DebugDisplayLog : MonoBehaviour {
 
 	//static string str;
@@ -15,17 +17,22 @@ public class DebugDisplayLog : MonoBehaviour {
 	}
 
 	private void Update( ) {
-		/* Quit パッケージ後の EXE で有効になる */
+		// Quit パッケージ後の EXE で有効になる
 		if( Input.GetKey( KeyCode.Escape ) ) Application.Quit( );
-		/*******************************************************/
 
-		/* Editor の Quit 処理 */
-		if( Input.GetKey( KeyCode.Escape ) ) {
-			//UnityEditor.EditorApplication.isPlaying = false;
+		// Editor の Quit 処理
+		if ( Input.GetKey( KeyCode.Escape ) ) {
+			UnityEditor.EditorApplication.isPlaying = false; /* パッケージ化時には, コメントアウト化して下さい */
 			//ClearConsole( );
 
 		}
-		/***********************************************************************/
+
+		// 特定キーが押されたときにログを消す
+		if ( Input.GetKey( KeyCode.C ) ) {
+			DebugDisplayLog.displayLog.Clear( );
+
+		}
+
 
 			// FPS
 			if ( this.oneSecondTime >= 1f ) {
@@ -49,8 +56,8 @@ public class DebugDisplayLog : MonoBehaviour {
 		int count = DebugDisplayLog.displayLog.Count;
 
 		for ( int i = 0; i < DebugDisplayLog.displayLog.Count; i++ ) {
-			this.debugString += DebugDisplayLog.displayLog [ i ];
-			this.debugString += "\n";
+			this.debugString += "<color=red>" + DebugDisplayLog.displayLog [ i ] + "</color>";
+			this.debugString += "<color=green>, </color>";
 
 		}
 

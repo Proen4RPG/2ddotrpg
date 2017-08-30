@@ -97,8 +97,80 @@ public class CSVLoader
         }
         return record;
     }
-    /*===============================================================*/
+	/*===============================================================*/
+
+	/*===============================================================*/
+	/// <summary>
+	/// @author Hironari Ushiyama
+	/// @brief CSVを読み込み,CSVのデータテーブルを生成し, 配列に格納する関数
+	/// @param string CSVファイル名 拡張子は抜かす
+	/// @param string[] CSV内容格納配列
+	/// </summary>
+	public void ArrayInput( string file, string[ ] array ) {
+		// ローダーの生成
+		CSVLoader loader = new CSVLoader( );
+		// 配列カウント用 index
+		int index = 0;
+		// CSVを読み込み,CSVのデータテーブルを生成
+		CSVTable csvTable = loader.LoadCSV( file );
+		foreach ( CSVRecord record in csvTable.Records ) {
+			foreach ( string header in csvTable.Headers ) {
+				array[ index ] = record.GetField( header );
+				index++;
+				// CSV の内容をデバッグ確認できます
+				//Debug.Log( header + " : " + record.GetField( header ) );
+
+			}
+
+		}
+
+
+	}
+	/*===============================================================*/
+
+	/*===============================================================*/
+	/// <summary>
+	/// @author Hironari Ushiyama
+	/// @brief CSVを読み込み,CSVのID属性に対応したKeyの自動生成とセーブデータへの保存をするクラス
+	/// @param string CSVファイル名 拡張子は抜かす
+	/// @param string[] CSVキー内容格納配列
+	/// </summary>
+	public void KeyGeneration( string file, string[ ] keyArray ) {
+		// ローダーの生成
+		CSVLoader loader = new CSVLoader( );
+		// 配列カウント用 index
+		int index = 0;
+		// 配列 ID 入れていき更新していく変数
+		string name = "";
+		// CSV を読み込み, CSV のデータテーブルを生成
+		CSVTable csvTable = loader.LoadCSV( file );
+		foreach ( CSVRecord record in csvTable.Records ) {
+			foreach ( string header in csvTable.Headers ) {
+				if ( header == "ID" ) {
+					// ID を元に Key 名を変更
+					name = record.GetField( header );
+
+				}
+				// ID 属性を元にキーネームを変更していく
+				keyArray[ index ] = name + "_" + header;
+				// キーネーム, キーネームに対応した CSV データ
+				SaveData.setString( name + "_" + header, record.GetField( header ) );
+				// 配列の入れ口をインクリメント
+				index++;
+				// Debug 出力
+				Debug.Log( "セーブデータキー : " + name + "_" + header );
+				DebugDisplayLog.displayLog.Add( name + "_" + header );
+
+			}
+
+		}
+		// セーブクラスを用いて CSV の内容をセーブする
+		GV.save( );
+
+
+	}
+	/*===============================================================*/
+
+
 }
 /*===============================================================*/
-
-
