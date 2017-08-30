@@ -2,10 +2,42 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/****************************************************************
-PlayerManager.cs : Player管理クラス
-****************************************************************/
+/// <summary>
+/// PlayerManager.cs : Player管理クラス
+/// </summary>
 public class PlayerManager : MonoBehaviour {
+
+	/// <summary>
+	/// キャラクターのステータスキーです
+	/// GameData.setString( KEY, DATA ) などで使います
+	/// </summary>
+	public enum KEY {
+		/* start */
+		Character01_NAME,
+		Character01_HP,
+		Character01_MP,
+		/*end */
+
+		/* start */
+		Character02_NAME,
+		Character02_HP,
+		Character02_MP,
+		/* end */
+
+		/* start */
+		Character03_NAME,
+		Character03_HP,
+		Character03_MP,
+		/* end */
+
+		/* start */
+		Character04_NAME,
+		Character04_HP,
+		Character04_MP
+		/* end */
+
+
+	}
 
 	static private Vector3 move = new Vector3( ); /* Player の 座右移動 */
 
@@ -37,7 +69,7 @@ public class PlayerManager : MonoBehaviour {
 			animator.SetBool( "testFlg", true );
 			animator.speed = 1.0f;
 			animator.Play( "rightWalk@Player01" );
-			move.x = playerSpeed * Time.deltaTime;
+			move.x = playerSpeed * 1 / 60;
 			//Debug.Log( move.x );
 
 		}
@@ -57,7 +89,7 @@ public class PlayerManager : MonoBehaviour {
 			animator.SetBool( "testFlg", false );
 			animator.speed = 1.0f;
 			animator.Play( "leftWalk@Player01" );
-			move.x = -playerSpeed * Time.deltaTime;
+			move.x = -playerSpeed * 1 / 60;
 			//Debug.Log( move.x );
 
 		}

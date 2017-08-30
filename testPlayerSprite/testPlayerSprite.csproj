@@ -78,11 +78,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Script\BattleScene.cs" />
+    <Compile Include="Assets\Script\CSV\CSVLoader.cs" />
+    <Compile Include="Assets\Script\CSV\CSVRecord.cs" />
+    <Compile Include="Assets\Script\CSV\CSVTable.cs" />
     <Compile Include="Assets\Script\DebugDisplayLog.cs" />
-    <Compile Include="Assets\Script\DungeonScene.cs" />
     <Compile Include="Assets\Script\GameManager.cs" />
     <Compile Include="Assets\Script\PlayerManager.cs" />
+    <Compile Include="Assets\Script\Save\GV.cs" />
+    <Compile Include="Assets\Script\Save\Rijndael.cs" />
+    <Compile Include="Assets\Script\Save\SaveData.cs" />
+    <Compile Include="Assets\Script\Scene\BattleScene.cs" />
+    <Compile Include="Assets\Script\Scene\DungeonScene.cs" />
+    <Compile Include="Assets\Script\UI\HUD_BattleScene.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Font\IPA_Font_License_Agreement_v1.0.txt" />
+    <None Include="Assets\Font\Readme_ipaexg00301.txt" />
+    <None Include="Assets\Resources\CSV\CSV形式注意事項.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

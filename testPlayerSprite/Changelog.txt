@@ -1,0 +1,43 @@
+「 Changelog 」
+
+・SaveData機能の移植を行いました。
+・CSV読込機能を実装しました。
+・外部フォントを使う様にしました。
+・クラスのフォルダ分けを行いました。
+・BattleSceneの実装を行っています。(区切りの良い段階でupしてます）
+・CSVから読み込んだデータ(CSV_CharacterStatus.csv)をSaveDataに保存するよ
+うにしました。
+
+「 伝達事項 」
+
+・CSV読込とSaveData保存について
+	GameManager.csクラスでCSVLoader.csを用いて、ResourcesフォルダにあるC
+	SV_CharacterStatus.csvを読み込んできて、SaveData.csクラスのSaveData.
+	setStringを使い、PlayerManager.csにあるKEYとCSVから読み込んできた
+	データを保存しています。
+	※現状、とてもコードが冗長になっています。
+	※ConsoleにCSVの内容が出力される様になっています。
+	※配列に格納したデータが何番目かも出力されます。
+
+・SaveDataに保存されたCSVの読込について
+	HUD_BattleScene.csクラスで、SaveData.csクラスのSaveData.getIntやSave
+	Data.getStringを用いて、PlayerManager.csにあるKEYで変数に入れて読込
+	を行っています。
+	※こちらも、とても冗長でGameObjectとの関連づけも相まってかなり面倒で
+	冗長になっています。
+
+・BattleSceneの進捗具合について
+	現状、BattleSceneの完成度は、まだまだですが、キャラクターのHP、MP、
+	キャラクター名などのステータス情報はCSVの内容と同期しています。
+	これから更に、BattleScene用に、UI(コマンド部分）クラスを作っていき作
+	業を進めていく予定でいます。
+
+・日本語用フォントして、IPAexフォント（IPAexゴシック）をuGUIで使用してい
+	ます。また、CSV読込機能も外部から持ってきています。
+	※ライセンス情報などフォルダに格納しています。
+
+記述日 : 2017年08月27日(日) 午後6時25分
+記述者 : 牛山 拓成
+
+
+------------------------------------------------------------------------
