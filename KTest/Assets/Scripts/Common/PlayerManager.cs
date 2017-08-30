@@ -18,6 +18,10 @@ public class PlayerManager
             });
             // ここで同じセーブデータに保存されないデータをを読み込める
             // 読み込む際はIDを使用
+
+            if (playerID == 0) {
+                playerParam.currentEquipment[0] = 1;
+            }
             updateParam();
 
             // 武器の剣と斧、体のローブなどの情報が入る
@@ -66,7 +70,6 @@ public class PlayerManager
                 Agl += equipment.Agl;
                 Luc += equipment.Luc;
             }
-
         }
 
         int enableEquipmentType;
@@ -103,6 +106,7 @@ public class PlayerManager
         players = new List<Player>();
         players.Add(new Player(0));
         players.Add(new Player(1));
+        selectPlayer = players[0];
     }
 
     /// <summary>
