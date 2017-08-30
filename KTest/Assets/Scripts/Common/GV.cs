@@ -11,25 +11,26 @@ using UnityEngine;
 public class GV
 {
     #region Classes
-    public class ParamBase
-    {
-        public string ID;
-        public string Name;
-    }
 
     /// <summary>
-    /// プレイヤーのステータス
+    /// プレイヤーの情報
+    /// 変動する情報を保存用
     /// </summary>
     [Serializable]
-    public class PlayerParam : ParamBase
+    public class PlayerParam
     {
+        public int ID;
+        public int Lv;
         public int HP;
         public int MP;
         public int Atk;
         public int Def;
-        public int Dex;
         public int Int;
+        public int Mgr;
+        public int Agl;
         public int Luc;
+        public int StatusPoint;
+        public int[] currentEquipment = new int[6];
     }
 
     /// <summary>
@@ -44,10 +45,23 @@ public class GV
 
         #region Player
         public List<PlayerParam> Players;
+        public int PartyCount;
+        #endregion
+
+        #region Items
+        // 所持している装備のIDの配列
+        public List<int> Equipments;
         #endregion
     }
+
+    // ゲームデータを読み込むときは先にセーブデータのロードまたはnewGame で関数を初期化して使用
     static GameData gameData;
-    static public GameData GData { get { return gameData; } }
+    static public GameData GData 
+    {
+        get {
+            return gameData;
+        }
+    }
 
     [Serializable]
     public class SystemData
@@ -60,7 +74,7 @@ public class GV
         get {
             if (systemData == null)
             {
-                initialize();
+                newGame();
             }
             return systemData;
         }
@@ -69,17 +83,9 @@ public class GV
     #endregion
 
     #region Properties
-    static public List<PlayerParam> Players { get; set; }
     #endregion
 
     #region Methods
-    static void initialize()
-    {
-        // SystemDataの読み込み
-        SaveData.setSlot(0);
-        SaveData.load();
-        systemData = SaveData.getClass<SystemData>("SystemData", null);
-    }
 
     /// <summary>
     /// GameData をセーブする
@@ -94,9 +100,11 @@ public class GV
         var player = new PlayerParam();
         gameData.Players.Add(player);
 
+
         SaveData.setClass("GameData", GData);
         SaveData.save();
     }
+
     static public void load(int slot = 1)
     {
         SaveData.setSlot(slot);
@@ -106,4 +114,53 @@ public class GV
         Debug.Log(gameData.playTime);
     }
     #endregion
+
+    /// <summary>
+    /// ゲームを新しく始めるときに呼び出される関数
+    /// </summary>
+    static public void newGame()
+    {
+        // SystemDataの読み込み
+        SaveData.setSlot(0);
+        SaveData.load();
+        systemData = SaveData.getClass<SystemData>("SystemData", null);
+        
+        gameData = new GameData();
+
+        // 装備の仮データ読み込み
+        {
+            gameData.Equipments = new List<int>();
+            // 仮で全装備を ID + 1 所持している状態にする
+            var equipments = EquipmentManager.getEquipmentList();
+            foreach (var equipment in equipments) {
+                for (int i = 0; i <= equipment.ID; ++i) {
+                    gameData.Equipments.Add(equipment.ID);
+                }
+            }
+        }
+
+        // プレイヤーの仮作成
+        {
+            gameData.Players = new List<PlayerParam>();
+            for (int i = 0; i < 2; ++i) {
+                // プレイヤーの初期値を作るときはここでファイルから読み込めばイケル
+                // 仮で適当な値をぶっこむ
+                var newPlayer = new PlayerParam();
+                newPlayer.ID = i;
+                newPlayer.HP = (i + 1) * 10;
+                newPlayer.MP = (i + 1) * 10;
+                newPlayer.Atk = (i + 1) * 10;
+                newPlayer.Def = (i + 1) * 10;
+                newPlayer.Int = (i + 1) * 10;
+                newPlayer.Mgr = (i + 1) * 10;
+                newPlayer.Agl = (i + 1) * 10;
+                newPlayer.Luc = (i + 1) * 10;
+                
+                gameData.Players.Add(newPlayer);
+
+            }
+        }
+    }
+
+
 }
