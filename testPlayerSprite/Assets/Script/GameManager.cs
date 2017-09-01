@@ -5,53 +5,54 @@ using UnityEngine.SceneManagement;
 
 /*===============================================================*/
 /// <summary>
-/// @brief GameManager.cs : ゲーム進行管理クラス
+/// @brief ゲーム進行管理クラス カメラオブジェクトにスクリプトを関連づけます
 /// </summary>
 /*===============================================================*/
 public class GameManager : MonoBehaviour {
 
-	/* ゲームの状態定義 */
-	public enum GameState {
-		/// <summary>update @brief 関数で切り替わったときに何回も呼ばれるのを防ぐ</summary>
-		NONE,       
+	// ゲームの状態定義
+	public enum GameState { 
 		DUNGEON,	/* ダンジョン */
 		BATTLE,		/* 戦闘シーン */
 
 	}
 
-	/* ゲーム状態 */
+	// ゲーム状態
 	static private GameState state;
 
-	// CSVLoader KeyGeneration クラスで使う変数を準備
-	// これらの変数には, キー情報が入ります
-	private string [ ] CSV_CharacterStatusKey = new string [ 1024 ];
-	private string[ ] CSV_EnemyStatusKey = new string[ 1024 ];
+	// LoadScene に対するフラグ変数
+	private bool loadLevelFlg;
 
 	// Use this for initialization
 	void Start( ) {
 		//state = GameState.DUNGEON;
 		Debug.Log( "現在のシーン : " + state.ToString( ) );
 
-		CSVLoader loader = new CSVLoader( );
-		// CSV キー生成と CSV データをセーブデータへ保存
-		loader.KeyGeneration( "CSV/CSV_CharacterStatus"/* , "Enemy" */, CSV_CharacterStatusKey );
-		loader.KeyGeneration( "CSV/CSV_EnemyStatus", CSV_EnemyStatusKey );
-
 
 	}
 
 	/*===============================================================*/
 	/// <summary>
-	/// @brief 毎フレーム呼ばれます, カメラオブジェクトにスクリプトを関連づけます
-	/// @param GameState GameStateで定義されたシーンをいれます
+	/// @brief 毎フレーム呼ばれます
 	/// </summary>
 	void Update( ) {
 		// GameState によるシーン遷移
 		switch ( state ) {
+			case GameState.DUNGEON : {
+				// BattleScene に遷移出来るようにフラグを変更
+				loadLevelFlg = true;
+				break;
+
+			}
+
 			case GameState.BATTLE : {
-				// LoadLevel
-				SceneManager.LoadScene( "BattleScene" );
-				Debug.Log( "現在のシーン : " + state.ToString( ) );
+				if( loadLevelFlg ) {
+					// LoadLevel
+					SceneManager.LoadScene( "BattleScene" );
+					// load scene が1回だけ呼ばれるようにする
+					loadLevelFlg = false;
+
+				}
 				break;
 
 			}
@@ -68,6 +69,14 @@ public class GameManager : MonoBehaviour {
 	/// @param GameState GameStateで定義されたシーンをいれます
 	/// </summary>
 	static public void SetGameState( GameState setState ) { state = setState; }
+	/*===============================================================*/
+
+	/*===============================================================*/
+	/// <summary>
+	/// @brief 現在のシーン状態取得する関数です
+	/// @return GetGameState 現在のゲームシーン
+	/// </summary>
+	static public GameState GetGameState( ) { return state; } 
 	/*===============================================================*/
 
 

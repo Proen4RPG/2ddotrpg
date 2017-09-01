@@ -4,22 +4,17 @@ using UnityEngine;
 
 /*===============================================================*/
 /// <summary>
-/// @brief 戦闘シーン管理クラス
+/// @brief 戦闘シーン管理クラス BattleSceneオブジェクトにスクリプトを関連づけます
 /// </summary>
 /*===============================================================*/
 public class BattleScene : MonoBehaviour {
 
 	public GameObject imgBack; /* 戦闘シーン背景 */
 
-	private void Awake( ) {
-		
-
-	}
-
 	// Use this for initialization
 	void Start () {
 		//GameManager.SetGameState( GameManager.GameState.BATTLE );
-		GameManager.SetGameState( GameManager.GameState.NONE );
+		//GameManager.SetGameState( GameManager.GameState.NONE );
 		Debug.Log( "BattleSceneClass!" );
 
 		SpriteRenderer renderer = imgBack.GetComponent<SpriteRenderer>( );

@@ -5,8 +5,9 @@ using UnityEngine.UI;
 
 /*===============================================================*/
 /// <summary>
-/// @brief BattleScene のステータス ( UI { HUD } ) 情報を操作するクラス
-/// @brief HP や MP など・・・
+/// @brief BattleSceneオブジェクトにスクリプトを関連づけます
+/// @brief BattleSceneのステータス(UI{HUD})情報を操作するクラス
+/// @brief HPやMPなど・・・
 /// </summary>
 /*===============================================================*/
 public class HUD_BattleScene : MonoBehaviour {
@@ -53,19 +54,16 @@ public class HUD_BattleScene : MonoBehaviour {
 	/// @brief 初期化
 	/// </summary>
 	public void Initialize( ) {
-		/* セーブデータのロード */
-		GV.load( );
-
 		// 文字列型を整数型へ変換
-		valHP1 = SaveData.getInt( "コウ_HP", 0 );
-		valHP2 = SaveData.getInt( "西園寺_HP", 0 );
-		valHP3 = SaveData.getInt( "エリザベータ_HP", 0 );
-		valHP4 = SaveData.getInt( "ディッキー_HP", 0 );
+		valHP1 = int.Parse( PlayerManager.GetPlayerStatusData( "1_HP" ) );
+		valHP2 = int.Parse( PlayerManager.GetPlayerStatusData( "2_HP" ) );
+		valHP3 = int.Parse( PlayerManager.GetPlayerStatusData( "3_HP" ) );
+		valHP4 = int.Parse( PlayerManager.GetPlayerStatusData( "4_HP" ) );
 
-		valMP1 = SaveData.getInt( "コウ_MP", 0 );
-		valMP2 = SaveData.getInt( "西園寺_MP", 0 );
-		valMP3 = SaveData.getInt( "エリザベータ_MP", 0 );
-		valMP4 = SaveData.getInt( "ディッキー_MP", 0 );
+		valMP1 = int.Parse( PlayerManager.GetPlayerStatusData( "1_MP" ) );
+		valMP2 = int.Parse( PlayerManager.GetPlayerStatusData( "2_MP" ) );
+		valMP3 = int.Parse( PlayerManager.GetPlayerStatusData( "3_MP" ) );
+		valMP4 = int.Parse( PlayerManager.GetPlayerStatusData( "4_MP" ) );
 
 		/* 各 Component の登録と関連づけ */
 		/*************************************************************/
@@ -115,7 +113,7 @@ public class HUD_BattleScene : MonoBehaviour {
 		/*************************************************************/
 
 		/* 関連づけたコンポーネントの初期化 */
-		TxtName.text = SaveData.getString( "コウ_ID" );
+		TxtName.text = PlayerManager.GetPlayerStatusData( "1_NAME" );
 		barValue.maxValue = valHP1; /* HP 最大値 */
 		lblHPText.text = "HP" + valHP1 + "/" + barValue.maxValue; /* max.Value は, level up による HP 最大値変動でロジックを変更するかも */
 		barValue.value = valHP1;
@@ -123,7 +121,7 @@ public class HUD_BattleScene : MonoBehaviour {
 		lblMPText.text = "MP" + valMP1 + "/" + barValueMP.maxValue; /* max.Value は, level up による HP 最大値変動でロジックを変更するかも */
 		barValueMP.value = valMP1;
 
-		TxtName2.text = SaveData.getString( "西園寺_ID" );
+		TxtName2.text = PlayerManager.GetPlayerStatusData( "2_NAME" );
 		barValue2.maxValue = valHP2; /* HP 最大値 */
 		lblHPText2.text = "HP" + valHP2 + "/" + barValue2.maxValue; /* max.Value は, level up による HP 最大値変動でロジックを変更するかも */
 		barValue2.value = valHP2;
@@ -131,7 +129,7 @@ public class HUD_BattleScene : MonoBehaviour {
 		lblMPText2.text = "MP" + valMP2 + "/" + barValueMP2.maxValue; /* max.Value は, level up による HP 最大値変動でロジックを変更するかも */
 		barValueMP2.value = valMP2;
 
-		TxtName3.text = SaveData.getString( "エリザベータ_ID" );
+		TxtName3.text = PlayerManager.GetPlayerStatusData( "3_NAME" );
 		barValue3.maxValue = valHP3; /* HP 最大値 */
 		lblHPText3.text = "HP" + valHP3 + "/" + barValue3.maxValue; /* max.Value は, level up による HP 最大値変動でロジックを変更するかも */
 		barValue3.value = valHP3;
@@ -139,15 +137,13 @@ public class HUD_BattleScene : MonoBehaviour {
 		lblMPText3.text = "MP" + valMP3 + "/" + barValueMP3.maxValue; /* max.Value は, level up による HP 最大値変動でロジックを変更するかも */
 		barValueMP3.value = valMP3;
 
-		TxtName4.text = SaveData.getString( "ディッキー_ID" );
+		TxtName4.text = PlayerManager.GetPlayerStatusData( "4_NAME" );
 		barValue4.maxValue = valHP4; /* HP 最大値 */
 		lblHPText4.text = "HP" + valHP4 + "/" + barValue4.maxValue; /* max.Value は, level up による HP 最大値変動でロジックを変更するかも */
 		barValue4.value = valHP4;
 		barValueMP4.maxValue = valMP4; /* MP 最大値 */
 		lblMPText4.text = "MP" + valMP4 + "/" + barValueMP4.maxValue; /* max.Value は, level up による HP 最大値変動でロジックを変更するかも */
 		barValueMP4.value = valMP4;
-
-		//DebugDisplayLog.displayLog = SaveData.getKeys( ); /* キーの確認 Debug 用 */
 
 
 	}

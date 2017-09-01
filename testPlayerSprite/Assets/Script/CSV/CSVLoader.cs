@@ -158,14 +158,66 @@ public class CSVLoader
 				// 配列の入れ口をインクリメント
 				index++;
 				// Debug 出力
-				Debug.Log( "セーブデータキー : " + name + "_" + header );
-				DebugDisplayLog.displayLog.Add( name + "_" + header );
+				//Debug.Log( "セーブデータキー : " + name + "_" + header );
+				//DebugDisplayLog.displayLog.Add( name + "_" + header );
 
 			}
 
 		}
 		// セーブクラスを用いて CSV の内容をセーブする
 		GV.save( );
+
+
+	}
+	/*===============================================================*/
+
+	/*===============================================================*/
+	/// <summary>
+	/// @author Hironari Ushiyama
+	/// @brief CSVを読み込み,CSVのID属性に対応したKey情報とKeyに対するデータを配列に格納するクラス
+	/// @param string CSVファイル名 拡張子は抜かす
+	/// @param string[] CSVキー内容格納配列
+	/// @return GetCSV_Key_Record Keyに対するデータ
+	/// </summary>
+	public string[ ] GetCSV_Key_Record( string file, string[ ] keyArray ) {
+		// ローダーの生成
+		CSVLoader loader = new CSVLoader( );
+		// 配列カウント用 index
+		int index = 0;
+		// 配列 ID 入れていき更新していく変数
+		string name = "";
+		// CSV データを格納していく配列
+		string[ ] keyData = new string[ 1024 ];
+		// CSV を読み込み, CSV のデータテーブルを生成
+		CSVTable csvTable = loader.LoadCSV( file );
+		foreach ( CSVRecord record in csvTable.Records ) {
+			foreach ( string header in csvTable.Headers ) {
+				if ( header == "ID" ) {
+					// ID を元に Key 名を変更
+					name = record.GetField( header );
+
+				}
+				// ID 属性を元にキーネームを変更していく
+				keyArray[ index ] = name + "_" + header;
+				// キーネーム, キーネームに対応した CSV データ
+				keyData[ index ] = record.GetField( header );
+				// 配列の入れ口をインクリメント
+				index++;
+
+			}
+
+		}
+		// Debug 出力
+		for ( int i = 0; i < keyData.Length; i++ ) {
+			if ( keyData[ i ] != null ) {
+				Debug.Log( /* i + "番目 : '" + */keyArray[ i ] + " : " + keyData[ i ] /* + "'" */ );
+				DebugDisplayLog.displayLog.Add( keyArray [ i ] + " : " + keyData [ i ] );
+
+			}
+
+		}
+		// データを格納した配列を返す
+		return keyData;
 
 
 	}
