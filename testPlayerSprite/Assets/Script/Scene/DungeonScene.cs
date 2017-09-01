@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 /*===============================================================*/
 /// <summary>
-/// @brief ダンジョン管理クラス
+/// @brief ダンジョン管理クラス DungeonSceneオブジェクトにスクリプトを関連づけます
 /// </summary>
 /*===============================================================*/
 public class DungeonScene : MonoBehaviour {
@@ -17,7 +17,9 @@ public class DungeonScene : MonoBehaviour {
 	public void Awake( ) {
 		GameManager.SetGameState( GameManager.GameState.DUNGEON );
 
+
 	}
+
 	// Use this for initialization
 	void Start( ) {
 		// 呼び出されたときに, ゲーム状態を更新する

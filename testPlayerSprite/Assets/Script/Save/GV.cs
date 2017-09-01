@@ -108,7 +108,7 @@ public class GV
         SaveData.load();
         gameData = SaveData.getClass<GameData>("GameData", null);
 
-        Debug.Log(gameData.playTime);
+        //Debug.Log(gameData.playTime);
 	}
     #endregion
 }

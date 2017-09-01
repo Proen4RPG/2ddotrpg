@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 /*===============================================================*/
 /// <summary>
-/// @brief デバッグ表示クラス
+/// @brief デバッグ表示クラス カメラオブジェクトにスクリプトを関連づけます
 /// </summary>
 /// /*===============================================================*/
 public class DebugDisplayLog : MonoBehaviour {
@@ -52,7 +52,7 @@ public class DebugDisplayLog : MonoBehaviour {
 		}
 
 		// structure debug string
-		this.debugString = "セーブデータキー : \n" /* str */;
+		this.debugString = "CSVデータキー : \n" /* str */;
 		int count = DebugDisplayLog.displayLog.Count;
 
 		for ( int i = 0; i < DebugDisplayLog.displayLog.Count; i++ ) {
