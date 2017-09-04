@@ -527,6 +527,7 @@ GameObject:
   - component: {fileID: 199274279}
   - component: {fileID: 199274278}
   - component: {fileID: 199274280}
+  - component: {fileID: 199274281}
   m_Layer: 0
   m_Name: BattleScene
   m_TagString: Untagged
@@ -590,6 +591,17 @@ MonoBehaviour:
   slider4: {fileID: 2117343946}
   lblMP4: {fileID: 277880308}
   sliderMP4: {fileID: 678169852}
+--- !u!114 &199274281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 199274277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8951ed46d4c374e4e9c6d16bf9c448bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &207307171
 GameObject:
   m_ObjectHideFlags: 0
@@ -1460,7 +1472,7 @@ MonoBehaviour:
   m_Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 1, g: 0, b: 0, a: 1}
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
 --- !u!1 &590014557
@@ -4999,6 +5011,7 @@ GameObject:
   - component: {fileID: 1812794369}
   - component: {fileID: 1812794368}
   - component: {fileID: 1812794367}
+  - component: {fileID: 1812794370}
   m_Layer: 5
   m_Name: SkillExplanation
   m_TagString: Untagged
@@ -5075,6 +5088,20 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1812794365}
+--- !u!114 &1812794370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1812794365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1889458598
 GameObject:
   m_ObjectHideFlags: 0

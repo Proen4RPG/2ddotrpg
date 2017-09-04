@@ -91,6 +91,7 @@
     <Compile Include="Assets\Script\Scene\BattleScene.cs" />
     <Compile Include="Assets\Script\Scene\DungeonScene.cs" />
     <Compile Include="Assets\Script\UI\HUD_BattleScene.cs" />
+    <Compile Include="Assets\Script\UI\UI_BattleScene.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Font\IPA_Font_License_Agreement_v1.0.txt" />
