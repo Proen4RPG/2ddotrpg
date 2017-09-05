@@ -2,6 +2,8 @@ rem 参考サイト http://d.hatena.ne.jp/nakamura001/20090203/1233652705
 cd /d %~dp0
 
 rem del /s *.log
+del /s *.csproj
+del /s *.sln
 
 rem 参考サイト http://tooljp.com/bat_qa/4B0ADEC0831C7D5F49257E4F000E1F58.html
 rem 現在のディレクトリ配下の指定フォルダ削除するコマンド
