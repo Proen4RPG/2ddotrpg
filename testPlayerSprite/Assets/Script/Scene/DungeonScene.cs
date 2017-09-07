@@ -31,24 +31,24 @@ public class DungeonScene : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update( ) {
-		/* 戦闘シーン移行の為のランダムエンカウントテストです */
-		if ( PlayerManager.GetPlayerMove( ).x > 0.0f
-			|| PlayerManager.GetPlayerMove( ).x < 0.0f ) {
-			int test = ( int )Random.Range( 0.0f, 100.0f );
-			encounter++;
-			if ( test.Equals( 50 ) && encounter > 120 ) {
-				encounter = 0;
-				FadeOut( );
-				fadeFlg = true;
-				Debug.Log( "ランダムエンカウントテスト" );
+		///* 戦闘シーン移行の為のランダムエンカウントテストです */
+		//if ( PlayerManager.GetPlayerMove( ).x > 0.0f
+		//	|| PlayerManager.GetPlayerMove( ).x < 0.0f ) {
+		//	int test = ( int )Random.Range( 0.0f, 100.0f );
+		//	encounter++;
+		//	if ( test.Equals( 50 ) && encounter > 120 ) {
+		//		encounter = 0;
+		//		FadeOut( );
+		//		fadeFlg = true;
+		//		Debug.Log( "ランダムエンカウントテスト" );
 
-			}
-			//DebugDisplayLog.SetDebugString( encounter.ToString( ) );
+		//	}
+		//	//DebugDisplayLog.SetDebugString( encounter.ToString( ) );
 
-		}
-		//Debug.Log( PlayerManager.GetPlayerMove( ).x );
-		/*****************************************************/
-		if( fadeFlg ) FadeOut( );
+		//}
+		////Debug.Log( PlayerManager.GetPlayerMove( ).x );
+		///*****************************************************/
+		//if( fadeFlg ) FadeOut( );
 
 
 	}
