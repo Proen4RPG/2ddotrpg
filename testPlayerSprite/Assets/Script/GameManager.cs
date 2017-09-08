@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -76,7 +75,28 @@ public class GameManager : MonoBehaviour {
 	/// @brief 現在のシーン状態取得する関数です
 	/// @return GetGameState 現在のゲームシーン
 	/// </summary>
-	static public GameState GetGameState( ) { return state; } 
+	static public GameState GetGameState( ) { return state; }
+	/*===============================================================*/
+
+	/*===============================================================*/
+	/// <summary>
+	/// @brief 現在の押されている key code を取得します キーを確認したいときに使います
+	/// </summary>
+	public void DownKeyCheck( ) {
+		if ( Input.anyKeyDown ) {
+			foreach ( KeyCode code in Enum.GetValues( typeof( KeyCode ) ) ) {
+				if ( Input.GetKeyDown( code ) ) {
+					Debug.Log( code );
+					break;
+
+				}
+
+			}
+
+		}
+
+
+	}
 	/*===============================================================*/
 
 
