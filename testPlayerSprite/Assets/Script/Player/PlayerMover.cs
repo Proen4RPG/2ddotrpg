@@ -92,7 +92,7 @@ public class PlayerMover : MonoBehaviour {
 
 		}
 		// Rigidbody コンポーネントに速度を設定する
-		rbody.velocity = new Vector2( moveSpeed, rbody.velocity.y );
+		if( rbody != null ) rbody.velocity = new Vector2( moveSpeed, rbody.velocity.y );
 
 
 		
