@@ -29,7 +29,7 @@ public class PlayerMover : MonoBehaviour {
 	/// <summary>
 	/// @brief UnityEngine ライフサイクルによる初期化
 	/// </summary>
-	public void Awake( ) {
+	void Awake( ) {
 		// 初期化関数を呼び出す
 		Initialize( );
 
@@ -41,7 +41,7 @@ public class PlayerMover : MonoBehaviour {
 	/// <summary>
 	/// @brief 初期化
 	/// </summary>
-	public void Initialize( ) {
+	void Initialize( ) {
 		// プレイヤーの RigidBody2D コンポーネントをセットしておきます
 		rbody = GetComponent<Rigidbody2D>( );
 
