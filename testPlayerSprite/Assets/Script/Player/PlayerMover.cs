@@ -10,20 +10,20 @@ public class PlayerMover : MonoBehaviour {
 	// プレイヤー制御用 Rigidbody2D
 	private Rigidbody2D rbody;
 	// プレイヤー移動速度固定値
-	[SerializeField, TooltipAttribute( "プレイヤー移動速度" )]
+	//[SerializeField, TooltipAttribute( "プレイヤー移動速度" )]
 	private float MOVE_SPEED = 3.0f;
 	// プレイヤー移動速度
 	private float moveSpeed;
 	// 移動方向定義
-	public enum MOVE_DIR {
+	protected enum MOVE_DIR {
 		STOP,
 		LEFT,
 		RIGHT
 
 
 	}
-	// 移動方向
-	private MOVE_DIR moveDirection = MOVE_DIR.STOP; // 初期状態は, 停止
+	// 移動方向 静的にし, 継承先で値が取得出来るようにします
+	static protected MOVE_DIR moveDirection = MOVE_DIR.STOP; // 初期状態は, 停止
 
 	/*===============================================================*/
 	/// <summary>
@@ -93,7 +93,6 @@ public class PlayerMover : MonoBehaviour {
 		}
 		// Rigidbody コンポーネントに速度を設定する
 		if( rbody != null ) rbody.velocity = new Vector2( moveSpeed, rbody.velocity.y );
-
 
 		
 	}
