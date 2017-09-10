@@ -15,15 +15,21 @@ public class PlayerMover : MonoBehaviour {
 	// プレイヤー移動速度
 	private float moveSpeed;
 	// 移動方向定義
-	protected enum MOVE_DIR {
+	public enum MOVE_DIR {
 		STOP,
 		LEFT,
 		RIGHT
 
 
 	}
-	// 移動方向 静的にし, 継承先で値が取得出来るようにします
+	/// <summary>
+	/// 移動方向 静的にし, 継承先で値が取得出来るようにします
+	/// </summary>
 	static protected MOVE_DIR moveDirection = MOVE_DIR.STOP; // 初期状態は, 停止
+	/// <summary>
+	/// 移動方向 継承先で値が取得出来るようにします
+	/// </summary>
+	public MOVE_DIR GetMove { get { return moveDirection; } }
 
 	/*===============================================================*/
 	/// <summary>

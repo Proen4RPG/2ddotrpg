@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
 
 /*===============================================================*/
 /// <summary>
@@ -10,70 +7,71 @@ using UnityEngine.SceneManagement;
 /*===============================================================*/
 public class DungeonScene : MonoBehaviour {
 
+	[SerializeField, TooltipAttribute( "ダンジョンシーン背景" )]
 	public GameObject imgBack; /* ダンジョンシーン背景 */
-	public bool fadeFlg;
+	private bool fadeFlg;
 	private int encounter = 0;
 
-	public void Awake( ) {
-		GameManager.SetGameState( GameManager.GameState.DUNGEON );
+	// プレイヤー移動クラスを継承します
+	PlayerMover mover = new PlayerMover( );
+	// ゲームマネージャークラスを継承します
+	GameManager manager = new GameManager( );
+
+	/*===============================================================*/
+	/// <summary>
+	/// @brief UnityEngine ライフサイクルによる初期化
+	/// </summary>
+	void Awake( ) {
+		Initialize( );
 
 
 	}
+	/*===============================================================*/
 
-	// Use this for initialization
-	void Start( ) {
+	/*===============================================================*/
+	/// <summary>
+	/// @brief 初期化
+	/// </summary>
+	void Initialize( ) {
 		// 呼び出されたときに, ゲーム状態を更新する
-		//GameManager.SetGameState( GameManager.GameState.DUNGEON );
+		GameManager.SetGameState( GameManager.GameState.DUNGEON );
 		Debug.Log( "DungeonClass!" );
 
 
 	}
+	/*===============================================================*/
 
-	// Update is called once per frame
+	/*===============================================================*/
+	/// <summary>
+	/// @brief UnityEngine ライフサイクルによって毎フレーム呼ばれます
+	/// </summary>
 	void Update( ) {
-		///* 戦闘シーン移行の為のランダムエンカウントテストです */
-		//if ( PlayerManager.GetPlayerMove( ).x > 0.0f
-		//	|| PlayerManager.GetPlayerMove( ).x < 0.0f ) {
-		//	int test = ( int )Random.Range( 0.0f, 100.0f );
-		//	encounter++;
-		//	if ( test.Equals( 50 ) && encounter > 120 ) {
-		//		encounter = 0;
-		//		FadeOut( );
-		//		fadeFlg = true;
-		//		Debug.Log( "ランダムエンカウントテスト" );
+		// 戦闘シーン移行の為のランダムエンカウントテストです
+		if ( mover.GetMove == PlayerMover.MOVE_DIR.LEFT
+			|| mover.GetMove == PlayerMover.MOVE_DIR.RIGHT ) {
+			int test = ( int )Random.Range( 0.0f, 100.0f );
+			encounter++;
+			if ( test.Equals( 50 ) && encounter > 120 ) {
+				encounter = 0;
+				fadeFlg = true;
+				Debug.Log( "ランダムエンカウントテスト" );
 
-		//	}
-		//	//DebugDisplayLog.SetDebugString( encounter.ToString( ) );
-
-		//}
-		////Debug.Log( PlayerManager.GetPlayerMove( ).x );
-		///*****************************************************/
-		//if( fadeFlg ) FadeOut( );
-
-
-	}
-
-	public void FadeOut( ) {
-		/* http://rikoubou.hatenablog.com/entry/2016/01/30/222448 */
-		SpriteRenderer renderer = imgBack.GetComponent< SpriteRenderer >( );
-		Color color = renderer.color;
-		color.r = 1.0f; // RGBのR(赤)値
-		color.g = 1.0f; // RGBのG(緑)値
-		color.b = 1.0f; // RGBのB(青)値
-		if ( 0.0f <= color.a ) color.a -= 0.01f;   // RGBのアルファ値(透明度の値)
-		else {
-			fadeFlg = false;
-			// フェードアウトが完了したら, ゲーム状態を更新する
-			GameManager.SetGameState( GameManager.GameState.BATTLE );
-			//SceneManager.LoadScene( "BattleScene" );
+			}
 
 		}
-		renderer.color = color; // 変更した色情報に変更
-		/******************************************************************/
-		//DebugDisplayLog.SetDebugString( color.a.ToString( ) );
+		if( fadeFlg ) {
+			Color clr = manager.FadeOut( imgBack.GetComponent<SpriteRenderer>( ) );
+			if ( clr.a <= 0.0f ) {
+				GameManager.SetGameState( GameManager.GameState.BATTLE );
+				fadeFlg = false;
+
+			}
+
+		}
 
 
 	}
+	/*===============================================================*/
 
 
 }
