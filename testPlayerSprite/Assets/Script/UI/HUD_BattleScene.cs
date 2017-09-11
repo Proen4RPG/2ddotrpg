@@ -10,7 +10,7 @@ using UnityEngine.UI;
 /// @brief HPやMPなど・・・
 /// </summary>
 /*===============================================================*/
-public class HUD_BattleScene : MonoBehaviour {
+public class HUD_BattleScene : PlayerManager {
 
 	/* オブジェクト参照  ヒエラルキーから, drag & drop でオブジェクトを指定します */
 	/* BattleScene オブジェクトに スクリプトが関連づけられています */
@@ -51,19 +51,31 @@ public class HUD_BattleScene : MonoBehaviour {
 
 	/*===============================================================*/
 	/// <summary>
+	/// @brief UnityEngine ライフサイクルによる初期化
+	/// </summary>
+	void Start( ) {
+		// 初期化関数を呼び出す
+		Initialize( );
+
+
+	}
+	/*===============================================================*/
+
+	/*===============================================================*/
+	/// <summary>
 	/// @brief 初期化
 	/// </summary>
-	public void Initialize( ) {
-		// 文字列型を整数型へ変換
-		//valHP1 = int.Parse( PlayerManager.GetPlayerStatusData( "Character01_HP" ) );
-		//valHP2 = int.Parse( PlayerManager.GetPlayerStatusData( "Character02_HP" ) );
-		//valHP3 = int.Parse( PlayerManager.GetPlayerStatusData( "Character03_HP" ) );
-		//valHP4 = int.Parse( PlayerManager.GetPlayerStatusData( "Character04_HP" ) );
+	void Initialize( ) {
+		// 取りあえずの実装 キャラ入れ替えには, 対応していない
+		valHP1 = Player1.HP;
+		valHP2 = Player2.HP;
+		valHP3 = Player3.HP;
+		valHP4 = Player4.HP;
 
-		//valMP1 = int.Parse( PlayerManager.GetPlayerStatusData( "Character01_MP" ) );
-		//valMP2 = int.Parse( PlayerManager.GetPlayerStatusData( "Character02_MP" ) );
-		//valMP3 = int.Parse( PlayerManager.GetPlayerStatusData( "Character03_MP" ) );
-		//valMP4 = int.Parse( PlayerManager.GetPlayerStatusData( "Character04_MP" ) );
+		valMP1 = Player1.MP;
+		valMP2 = Player2.MP;
+		valMP3 = Player3.MP;
+		valMP4 = Player4.MP;
 
 		/* 各 Component の登録と関連づけ */
 		/*************************************************************/
@@ -113,7 +125,8 @@ public class HUD_BattleScene : MonoBehaviour {
 		/*************************************************************/
 
 		/* 関連づけたコンポーネントの初期化 */
-		//TxtName.text = PlayerManager.GetPlayerStatusData( "Character01_ID" );
+		// 取りあえずの実装 キャラ入れ替えには, 対応していない
+		TxtName.text = Player1._Player1;
 		barValue.maxValue = valHP1; /* HP 最大値 */
 		lblHPText.text = "HP" + valHP1 + "/" + barValue.maxValue; /* max.Value は, level up による HP 最大値変動でロジックを変更するかも */
 		barValue.value = valHP1;
@@ -121,7 +134,7 @@ public class HUD_BattleScene : MonoBehaviour {
 		lblMPText.text = "MP" + valMP1 + "/" + barValueMP.maxValue; /* max.Value は, level up による HP 最大値変動でロジックを変更するかも */
 		barValueMP.value = valMP1;
 
-		//TxtName2.text = PlayerManager.GetPlayerStatusData( "Character02_ID" );
+		TxtName2.text = Player2._Player2;
 		barValue2.maxValue = valHP2; /* HP 最大値 */
 		lblHPText2.text = "HP" + valHP2 + "/" + barValue2.maxValue; /* max.Value は, level up による HP 最大値変動でロジックを変更するかも */
 		barValue2.value = valHP2;
@@ -129,7 +142,7 @@ public class HUD_BattleScene : MonoBehaviour {
 		lblMPText2.text = "MP" + valMP2 + "/" + barValueMP2.maxValue; /* max.Value は, level up による HP 最大値変動でロジックを変更するかも */
 		barValueMP2.value = valMP2;
 
-		//TxtName3.text = PlayerManager.GetPlayerStatusData( "Character03_ID" );
+		TxtName3.text = Player3._Player3;
 		barValue3.maxValue = valHP3; /* HP 最大値 */
 		lblHPText3.text = "HP" + valHP3 + "/" + barValue3.maxValue; /* max.Value は, level up による HP 最大値変動でロジックを変更するかも */
 		barValue3.value = valHP3;
@@ -137,7 +150,7 @@ public class HUD_BattleScene : MonoBehaviour {
 		lblMPText3.text = "MP" + valMP3 + "/" + barValueMP3.maxValue; /* max.Value は, level up による HP 最大値変動でロジックを変更するかも */
 		barValueMP3.value = valMP3;
 
-		//TxtName4.text = PlayerManager.GetPlayerStatusData( "Character04_ID" );
+		TxtName4.text = Player4._Player4;
 		barValue4.maxValue = valHP4; /* HP 最大値 */
 		lblHPText4.text = "HP" + valHP4 + "/" + barValue4.maxValue; /* max.Value は, level up による HP 最大値変動でロジックを変更するかも */
 		barValue4.value = valHP4;
@@ -149,15 +162,10 @@ public class HUD_BattleScene : MonoBehaviour {
 	}
 	/*===============================================================*/
 
-	// Use this for initialization
-	void Start () {
-		// 初期化
-		this.Initialize( );
-
-
-	}
-
-	// Update is called once per frame
+	/*===============================================================*/
+	/// <summary>
+	/// @brief UnityEngine ライフサイクルによって毎フレーム呼ばれます
+	/// </summary>
 	void Update () {
 		Text lblHPText = lblHP.GetComponent<Text>( );
 		Slider barValue = slider.GetComponent<Slider>( );
@@ -167,6 +175,7 @@ public class HUD_BattleScene : MonoBehaviour {
 
 
 	}
+	/*===============================================================*/
 
 
 }
