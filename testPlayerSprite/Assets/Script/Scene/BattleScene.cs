@@ -5,14 +5,10 @@
 /// @brief 戦闘シーン管理クラス BattleSceneオブジェクトにスクリプトを関連づけます
 /// </summary>
 /*===============================================================*/
-public class BattleScene : GameManager {
+public class BattleScene : MonoBehaviour {
 
 	[SerializeField, TooltipAttribute( "戦闘シーン背景" )]
 	public GameObject imgBack; // 戦闘シーン背景
-
-	// You are trying to create a MonoBehaviour using the 'new' keyword Fix
-	// ゲームマネージャークラスを継承します
-	//GameManager manager = new GameManager( );
 
 	/*===============================================================*/
 	/// <summary>
@@ -47,7 +43,7 @@ public class BattleScene : GameManager {
 	/// </summary>
 	void Update ( ) {
 		// 場面転換関数を呼ぶ
-		FadeIn( imgBack.GetComponent<SpriteRenderer>( ) );
+		GameManager.FadeIn( imgBack.GetComponent<SpriteRenderer>( ) );
 
 
 	}

@@ -27,9 +27,9 @@ public class PlayerMover : MonoBehaviour {
 	/// </summary>
 	static protected MOVE_DIR moveDirection = MOVE_DIR.STOP; // 初期状態は, 停止
 	/// <summary>
-	/// 移動方向 継承先で値が取得出来るようにします
+	/// 移動方向 静的, 継承先で値が取得出来るようにします
 	/// </summary>
-	public MOVE_DIR GetMove { get { return moveDirection; } }
+	static public MOVE_DIR GetMove { get { return moveDirection; } }
 
 	/*===============================================================*/
 	/// <summary>

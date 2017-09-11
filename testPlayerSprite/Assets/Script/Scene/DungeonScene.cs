@@ -12,11 +12,6 @@ public class DungeonScene : MonoBehaviour {
 	private bool fadeFlg;
 	private int encounter = 0;
 
-	// プレイヤー移動クラスを継承します
-	PlayerMover mover = new PlayerMover( );
-	// ゲームマネージャークラスを継承します
-	GameManager manager = new GameManager( );
-
 	/*===============================================================*/
 	/// <summary>
 	/// @brief UnityEngine ライフサイクルによる初期化
@@ -47,8 +42,8 @@ public class DungeonScene : MonoBehaviour {
 	/// </summary>
 	void Update( ) {
 		// 戦闘シーン移行の為のランダムエンカウントテストです
-		if ( mover.GetMove == PlayerMover.MOVE_DIR.LEFT
-			|| mover.GetMove == PlayerMover.MOVE_DIR.RIGHT ) {
+		if ( PlayerMover.GetMove == PlayerMover.MOVE_DIR.LEFT
+			|| PlayerMover.GetMove == PlayerMover.MOVE_DIR.RIGHT ) {
 			int test = ( int )Random.Range( 0.0f, 100.0f );
 			encounter++;
 			if ( test.Equals( 50 ) && encounter > 120 ) {
@@ -59,8 +54,8 @@ public class DungeonScene : MonoBehaviour {
 			}
 
 		}
-		if( fadeFlg ) {
-			Color clr = manager.FadeOut( imgBack.GetComponent<SpriteRenderer>( ) );
+		if ( fadeFlg ) {
+			Color clr = GameManager.FadeOut( imgBack.GetComponent<SpriteRenderer>( ) );
 			if ( clr.a <= 0.0f ) {
 				GameManager.SetGameState( GameManager.GameState.BATTLE );
 				fadeFlg = false;

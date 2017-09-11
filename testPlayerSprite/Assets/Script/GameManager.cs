@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour {
 	/// <summary>
 	/// @brief 現在の押されている key code を取得します キーを確認したいときに使います
 	/// </summary>
-	public void DownKeyCheck( ) {
+	static public void DownKeyCheck( ) {
 		if ( Input.anyKeyDown ) {
 			foreach ( KeyCode code in Enum.GetValues( typeof( KeyCode ) ) ) {
 				if ( Input.GetKeyDown( code ) ) {
@@ -105,7 +105,7 @@ public class GameManager : MonoBehaviour {
 	/// @param SpriteRenderer スプライトレンダラーコンポーネントを指定
 	/// @FadeOut 現在のアルファ値を返します
 	/// </summary>
-	public Color FadeOut( SpriteRenderer obj ) {
+	static public Color FadeOut( SpriteRenderer obj ) {
 		// アルファ値は, 初期値として 0.0f より大きくなっている必要があります
 		// http://rikoubou.hatenablog.com/entry/2016/01/30/222448
 		SpriteRenderer renderer = obj.GetComponent<SpriteRenderer>( );
@@ -128,7 +128,7 @@ public class GameManager : MonoBehaviour {
 	/// @param SpriteRenderer スプライトレンダラーコンポーネントを指定
 	/// @FadeOut 現在のアルファ値を返します
 	/// </summary>
-	public Color FadeIn( SpriteRenderer obj ) {
+	static public Color FadeIn( SpriteRenderer obj ) {
 		// アルファ値は, 初期値として 1.0f 以下になっている必要があります
 		// http://rikoubou.hatenablog.com/entry/2016/01/30/222448
 		SpriteRenderer renderer = obj.GetComponent<SpriteRenderer>( );
