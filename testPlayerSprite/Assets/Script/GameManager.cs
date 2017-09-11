@@ -122,5 +122,28 @@ public class GameManager : MonoBehaviour {
 	}
 	/*===============================================================*/
 
+	/*===============================================================*/
+	/// <summary>
+	/// @brief スプライトレンダラーコンポーネントのカラー属性アルファ値を増大する関数
+	/// @param SpriteRenderer スプライトレンダラーコンポーネントを指定
+	/// @FadeOut 現在のアルファ値を返します
+	/// </summary>
+	public Color FadeIn( SpriteRenderer obj ) {
+		// アルファ値は, 初期値として 1.0f 以下になっている必要があります
+		// http://rikoubou.hatenablog.com/entry/2016/01/30/222448
+		SpriteRenderer renderer = obj.GetComponent<SpriteRenderer>( );
+		Color color = renderer.color;
+		color.r = 1.0f;	// RGBのR(赤)値
+		color.g = 1.0f;	// RGBのG(緑)値
+		color.b = 1.0f;	// RGBのB(青)値
+		if( color.a <= 1.0f ) color.a += 0.01f;	// RGBのアルファ値(透明度の値)
+		renderer.color = color; // 変更した色情報に変更
+		// カラー値を返す
+		return color;
+
+
+	}
+	/*===============================================================*/
+
 
 }
