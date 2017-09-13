@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -76,7 +75,74 @@ public class GameManager : MonoBehaviour {
 	/// @brief 現在のシーン状態取得する関数です
 	/// @return GetGameState 現在のゲームシーン
 	/// </summary>
-	static public GameState GetGameState( ) { return state; } 
+	static public GameState GetGameState( ) { return state; }
+	/*===============================================================*/
+
+	/*===============================================================*/
+	/// <summary>
+	/// @brief 現在の押されている key code を取得します キーを確認したいときに使います
+	/// </summary>
+	static public void DownKeyCheck( ) {
+		if ( Input.anyKeyDown ) {
+			foreach ( KeyCode code in Enum.GetValues( typeof( KeyCode ) ) ) {
+				if ( Input.GetKeyDown( code ) ) {
+					Debug.Log( code );
+					break;
+
+				}
+
+			}
+
+		}
+
+
+	}
+	/*===============================================================*/
+
+	/*===============================================================*/
+	/// <summary>
+	/// @brief スプライトレンダラーコンポーネントのカラー属性アルファ値を減衰する関数
+	/// @param SpriteRenderer スプライトレンダラーコンポーネントを指定
+	/// @FadeOut 現在のアルファ値を返します
+	/// </summary>
+	static public Color FadeOut( SpriteRenderer obj ) {
+		// アルファ値は, 初期値として 0.0f より大きくなっている必要があります
+		// http://rikoubou.hatenablog.com/entry/2016/01/30/222448
+		SpriteRenderer renderer = obj.GetComponent<SpriteRenderer>( );
+		Color color = renderer.color;
+		color.r = 1.0f; // RGBのR(赤)値
+		color.g = 1.0f; // RGBのG(緑)値
+		color.b = 1.0f; // RGBのB(青)値
+		if ( 0.0f <= color.a ) color.a -= 0.01f;   // RGBのアルファ値(透明度の値)
+		renderer.color = color; // 変更した色情報に変更
+		// カラー値を返す
+		return color;
+
+
+	}
+	/*===============================================================*/
+
+	/*===============================================================*/
+	/// <summary>
+	/// @brief スプライトレンダラーコンポーネントのカラー属性アルファ値を増大する関数
+	/// @param SpriteRenderer スプライトレンダラーコンポーネントを指定
+	/// @FadeOut 現在のアルファ値を返します
+	/// </summary>
+	static public Color FadeIn( SpriteRenderer obj ) {
+		// アルファ値は, 初期値として 1.0f 以下になっている必要があります
+		// http://rikoubou.hatenablog.com/entry/2016/01/30/222448
+		SpriteRenderer renderer = obj.GetComponent<SpriteRenderer>( );
+		Color color = renderer.color;
+		color.r = 1.0f;	// RGBのR(赤)値
+		color.g = 1.0f;	// RGBのG(緑)値
+		color.b = 1.0f;	// RGBのB(青)値
+		if( color.a <= 1.0f ) color.a += 0.01f;	// RGBのアルファ値(透明度の値)
+		renderer.color = color; // 変更した色情報に変更
+		// カラー値を返す
+		return color;
+
+
+	}
 	/*===============================================================*/
 
 

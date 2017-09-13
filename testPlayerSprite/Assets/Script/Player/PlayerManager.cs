@@ -43,7 +43,7 @@ public class PlayerManager : MonoBehaviour {
 	/// <summary>
 	/// @brief UnityEngine ライフサイクルによる初期化
 	/// </summary>
-	public void Awake( ) {
+	void Awake( ) {
 		// 初期化関数を呼び出す
 		Initialize( );
 
@@ -55,7 +55,7 @@ public class PlayerManager : MonoBehaviour {
 	/// <summary>
 	/// @brief 初期化
 	/// </summary>
-	public void Initialize( ) {
+	void Initialize( ) {
 		// CSV読み込み機能を使った配列へのデータ読み込み
 		CSVLoader loader = new CSVLoader( );
 		CSV_CharacterStatusKeyData = loader.GetCSV_Key_Record( "CSV/CSV_CharacterStatus", CSV_CharacterStatusKey );
