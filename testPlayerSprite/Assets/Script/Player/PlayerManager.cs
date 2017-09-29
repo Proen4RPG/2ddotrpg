@@ -12,27 +12,27 @@ public class PlayerManager : MonoBehaviour {
 	/// <summary>
 	/// プレイヤー 1 のステータス情報にアクセスします
 	/// </summary>
-	protected PlayerParameters Player1 = new PlayerParameters( );
+	public PlayerParameters Player1 = new PlayerParameters( );
 	/// <summary>
 	/// プレイヤー 2 のステータス情報にアクセスします
 	/// </summary>
-	protected PlayerParameters Player2 = new PlayerParameters( );
+	public PlayerParameters Player2 = new PlayerParameters( );
 	/// <summary>
 	/// プレイヤー 3 のステータス情報にアクセスします
 	/// </summary>
-	protected PlayerParameters Player3 = new PlayerParameters( );
+	public PlayerParameters Player3 = new PlayerParameters( );
 	/// <summary>
 	/// プレイヤー 4 のステータス情報にアクセスします
 	/// </summary>
-	protected PlayerParameters Player4 = new PlayerParameters( );
+	public PlayerParameters Player4 = new PlayerParameters( );
 	/// <summary>
 	/// プレイヤー 5 のステータス情報にアクセスします
 	/// </summary>
-	protected PlayerParameters Player5 = new PlayerParameters( );
+	public PlayerParameters Player5 = new PlayerParameters( );
 	/// <summary>
 	/// プレイヤー 6 のステータス情報にアクセスします
 	/// </summary>
-	protected PlayerParameters Player6 = new PlayerParameters( );
+	public PlayerParameters Player6 = new PlayerParameters( );
 
 	// CSVLoader loader.GetCSV_Key_Record クラスで使う変数を準備
 	// これらの変数には, キー情報とキーに対するデータが入ります

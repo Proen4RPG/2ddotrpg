@@ -5,7 +5,7 @@ using UnityEngine.UI;
 /// <summary>
 /// @brief バトルシーンのインタラクティブなUIを管理します, BattleSceneオブジェクトにスクリプトを関連づけます
 /// </summary>
-public class UI_BattleScene : MonoBehaviour {
+public class UI_BattleScene : EnemyManager {
 
 	
 	//[TooltipAttribute( "攻撃, 防御, スキル, 会話, 入れ替え, アイテム, 逃げる, スキル説明\n" +
@@ -16,10 +16,6 @@ public class UI_BattleScene : MonoBehaviour {
 	//					"directory : BattleScene/CanvasUI/CommandAndSkillExplanation" )]
 	public GameObject CommandFrame;
 
-	//[TooltipAttribute( "敵選択 UI のオブジェクト\n" +
-	//					"directory : BattleScene/" )]
-	public GameObject[ ] ChoiceArrow;
-
 	//[TooltipAttribute( "バトルシーン上のプレイヤーオブジェクト\n" +
 	//					"directory : BattleScene/" )]
 	public GameObject[ ] Players;
@@ -29,10 +25,21 @@ public class UI_BattleScene : MonoBehaviour {
 	private int choice; // 敵選択 Arrow
 	// 判定用フラグ
 	private bool isAttack; // 攻撃ボタン
+	static private bool isEnter; // 決定ボタン
 	// バトルシーンでのエネミーの現在位置を保存する変数の準備
-	private Vector3 EnemyTranslate = new Vector3( );
+	//private Vector3 EnemyTranslate = new Vector3( );
 	// バトルシーンでのプレイヤーの現在位置を保存する変数の準備
 	private Vector3 PlayerTranslate = new Vector3( );
+	// プレイヤーの初期位置を格納するための変数の準備
+	private Vector3[ ] oldTranslatePlayers;
+	// BattleEnemyGenerate のゲームオブジェクトを保存するための変数の準備
+	private GameObject[ ] generate = BattleEnemyGenerate.Enemy;
+
+	// セッターおよびゲッター定義部
+	/// <summary>
+	/// @brief バトルシーンで攻撃コマンドが押されているかgetします
+	/// </summary>
+	//static public bool IsAttack { get { return IsAttack; } }
 
 	/*===============================================================*/
 	/// <summary>
@@ -51,8 +58,9 @@ public class UI_BattleScene : MonoBehaviour {
 		// 二次元配列操作用カウント変数の初期化
 		x = 0;
 		y = -1;
-		// 敵選択 Arrow の初期化
-		for( int i = 0; i < ChoiceArrow.Length; i++ ) ChoiceArrow[ i ].SetActive( false );
+		// バトルシーン上にいるプレイヤーの位置を初期位置として格納
+		oldTranslatePlayers = new Vector3[ Players.Length ];
+		for( int i = 0; i < Players.Length; i++ ) oldTranslatePlayers[ i ] = Players[ i ].transform.position;
 
 
 	}
@@ -63,8 +71,12 @@ public class UI_BattleScene : MonoBehaviour {
 	/// @brief 毎フレーム呼ばれます
 	/// </summary>
 	void Update( ) {
+		// 適生成クラステスト
+		// 全て見えないようにする
+		for( int i = 0; i < BattleEnemyGenerate.EnemyNumber; i++ ) IsGenerateChildArrowVisible( false, i );
+		Debug.Log( "<color='red'>" + GetEnemyStatusData( generate[ 0 ].name + "_NAME" ) + "</color>" );
 		// 攻撃コマンドを選択している間は, 処理しない
-		if( !isAttack ) {
+		if ( !isAttack ) {
 			// 方向キーによるコマンド操作 攻撃から始まるようにする
 			if (	Input.GetKeyDown( KeyCode.RightArrow ) ||
 					Input.GetKeyDown( KeyCode.LeftArrow ) && y != -1 ||
@@ -130,24 +142,44 @@ public class UI_BattleScene : MonoBehaviour {
 		if( Input.GetKeyDown( KeyCode.Backspace ) ) {
 			IsEnableCommandGroup( true );
 			isAttack = false;
-			for( int i = 0; i < ChoiceArrow.Length; i++ ) ChoiceArrow[ i ].SetActive( false );
 
 		}
 		// 攻撃コマンドを選んだ時, 敵を選択できるようにする
 		if( isAttack ) {
 			// 上下十字キーに反応
-			if( Input.GetKeyDown( KeyCode.DownArrow ) && choice < ChoiceArrow.Length - 1 ) choice++;
-			if( Input.GetKeyDown( KeyCode.UpArrow ) && choice >= 1 ) choice--;
-			// 全て Inactive にする
-			for( int i = 0; i < ChoiceArrow.Length; i++ ) ChoiceArrow[ i ].SetActive( false );
+			if( Input.GetKeyDown( KeyCode.DownArrow ) && choice >= 1 ) choice--;
+			if( Input.GetKeyDown( KeyCode.UpArrow ) && choice < BattleEnemyGenerate.EnemyNumber - 1 ) choice++;
+			// 全て見えないようにする
+			for( int i = 0; i < BattleEnemyGenerate.EnemyNumber; i++ ) IsGenerateChildArrowVisible( false, i );
 			// オブジェクト操作
-			ChoiceArrow[ choice ].SetActive( true );
+			IsGenerateChildArrowVisible( true, choice );
 			// 決定キー ( Enter ) が押されたとき
 			if ( Input.GetKeyDown( KeyCode.Return ) ) {
-				Debug.Log( ChoiceArrow[ choice ].transform.root.gameObject.transform.name );
-				EnemyTranslate = ChoiceArrow[ choice ].transform.root.gameObject.transform.position;
-				Debug.Log( EnemyTranslate );
+				//EnemyTranslate = ChoiceArrow[ choice ].transform.root.gameObject.transform.position;
+				PlayerTranslate = Players[ 0 ].transform.position;
+				//float test = Vector3.Distance( EnemyTranslate, PlayerTranslate );
+				//Debug.Log( test );
+				//Players[ 0 ].transform.Translate(  );
+				//Debug.Log( ChoiceArrow[ choice ].transform.root.gameObject.transform.name + " : " + EnemyTranslate );
+				Debug.Log( Players[ 0 ].transform.name + " : " + PlayerTranslate );
+				//Debug.Log( ChoiceArrow[ choice ].transform.root.gameObject.GetComponent<SpriteRenderer>( ).bounds.size.x );
+				Debug.Log( oldTranslatePlayers[ 0 ] );
+				//Debug.Log( "敵の素早さ : " + enemy.getcs
+				isEnter = true;
 
+				// プレイヤーを元いた場所に戻す
+			} else if( Input.GetKeyUp( KeyCode.Return ) ) for( int i = 0; i < Players.Length; i++ ) Players[ i ].transform.position = oldTranslatePlayers[ i ];
+			if( isEnter ) {
+				Debug.Log( GetEnemyStatusData( generate[ choice ].name + "_NAME" ) + "を選択しました。" );
+			// プレイヤーが敵に攻撃するときのモーション
+			// X : 敵の X 座標 - プレイヤーの X 座標 + 敵 Sprite の横幅 ( プレイヤーが敵に食い込まないようにする )
+			// Y : 敵の Y 座標 - プレイヤーの Y 座標
+			// Z : 2D ゲームのため変更無し 0.0f
+			Players[ 0 ].transform.Translate( generate[ choice ].gameObject.transform.transform.position.x
+				- Players[ 0 ].transform.position.x + generate[ choice ].gameObject.transform.gameObject.GetComponent<SpriteRenderer>( ).bounds.size.x,
+				generate[ choice ].gameObject.transform.transform.position.y
+				- Players[ 0 ].transform.position.y, 0.0f );
+				isEnter = false;
 			}
 
 		}
@@ -213,6 +245,23 @@ public class UI_BattleScene : MonoBehaviour {
 			}
 
 		}
+
+
+	}
+	/*===============================================================*/
+
+	/*===============================================================*/
+	/// <summary>
+	/// @biref 敵選択Arrowの表示・非表示を行います
+	/// @param bool true:表示,false:非表示
+	/// @param int 生成された敵の何番目を処理するか
+	/// </summary>
+	private void IsGenerateChildArrowVisible( bool isVisible, int index ) {
+		SpriteRenderer generateChildZero = generate[ index ].gameObject.transform.GetChild( 0 ).GetComponent<SpriteRenderer>( );
+		Color generateChildZeroClr = generateChildZero.color;
+		if ( !isVisible ) generateChildZeroClr.a = 0.0f;
+		if( isVisible ) generateChildZeroClr.a = 1.0f;
+		generate[ index ].gameObject.transform.GetChild( 0 ).GetComponent<SpriteRenderer>( ).color = generateChildZeroClr;
 
 
 	}
