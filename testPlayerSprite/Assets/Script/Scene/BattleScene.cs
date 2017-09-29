@@ -8,7 +8,8 @@
 public class BattleScene : MonoBehaviour {
 
 	[SerializeField, TooltipAttribute( "戦闘シーン背景" )]
-	public GameObject imgBack; // 戦闘シーン背景
+	// "directory : BattleScene/CanvasGame/Back"
+	private GameObject imgBack; // 戦闘シーン背景
 
 	/*===============================================================*/
 	/// <summary>
