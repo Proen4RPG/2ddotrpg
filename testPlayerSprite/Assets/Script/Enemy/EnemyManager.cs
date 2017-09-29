@@ -1,9 +1,8 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 /*===============================================================*/
 /// <summary>
-/// @brief Enemy の基底クラス
+/// @brief Enemyの基底クラス,BattleSceneオブジェクトに関連づけます
 /// </summary>
 /*===============================================================*/
 public class EnemyManager : MonoBehaviour {
@@ -29,7 +28,7 @@ public class EnemyManager : MonoBehaviour {
 	/// <summary>
 	/// @brief 初期化
 	/// </summary>
-	void Initialize( ) {
+	public void Initialize( ) {
 		// CSV読み込み機能を使った配列へのデータ読み込み
 		CSVLoader loader = new CSVLoader( );
 		CSV_EnemyStatusKeyData = loader.GetCSV_Key_Record( "CSV/CSV_EnemyStatus", CSV_EnemyStatusKey );
@@ -39,14 +38,12 @@ public class EnemyManager : MonoBehaviour {
 	/*===============================================================*/
 
 	/*===============================================================*/
-
-	/*===============================================================*/
 	/// <summary>
 	/// @brief Enemy のキーデータを元にキーに対するデータを取得します
 	/// @param string 例：Monster01_IDなどを指定します
 	/// @return GetPlayerStatusData 例:Monster01_IDに対するデータ
 	/// </summary>
-	protected string GetEnemyStatusData( string key ) {
+	public string GetEnemyStatusData( string key ) {
 		// data を格納する変数
 		string str = "";
 		// key を元に該当データを探し出す
