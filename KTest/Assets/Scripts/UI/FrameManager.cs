@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using UniRx;
 using UniRx.Triggers;
 
-public class ButtonManager : MonoBehaviour
+public class FrameManager : MonoBehaviour
 {
     public enum UIType
     {
@@ -32,20 +32,26 @@ public class ButtonManager : MonoBehaviour
         history[UIType.Menu] = new Stack<MyMenuFrame>();
         history[UIType.Buttle] = new Stack<MyMenuFrame>();
         history[UIType.Other] = new Stack<MyMenuFrame>();
-
         currentUIType = UIType.Menu;
     }
 
     /// <summary>
     /// Window の切り替え
-    /// history には追加されない
     /// </summary>
     /// <param name="window">切り替える Window</param>
+    /// <param name="isAddHistory">履歴に追加するか</param>
     /// <param name="closeOldWindow">現在開いている Window を閉じるか</param>
-    static public void changeWindow(MyMenuFrame window, bool closeOldWindow = false)
+    static public void changeWindow(MyMenuFrame window, bool closeOldWindow = false, bool isAddHistory = false)
     {
+        if (window == currentWindow) {
+            return;
+        }
+
         settingCurrentWindow(closeOldWindow);
-        settingButtons(window, true);
+        settingFrame(window, true);
+        if (isAddHistory && currentWindow != null) {
+            history[currentUIType].Push(currentWindow);
+        }
         currentWindow = window;
     }
 
@@ -57,11 +63,12 @@ public class ButtonManager : MonoBehaviour
     /// <param name="closeOldWindow">現在開いている Window を閉じるか</param>
     static public void openWindow(MyMenuFrame window, bool closeOldWindow = false)
     {
-        settingCurrentWindow(closeOldWindow);
-        settingButtons(window, true);
         if (window == currentWindow) {
             return;
         }
+        
+        settingCurrentWindow(closeOldWindow);
+        settingFrame(window, true);
         if (currentWindow != null) {
             history[currentUIType].Push(currentWindow);
         }
@@ -97,7 +104,8 @@ public class ButtonManager : MonoBehaviour
         }
 
         var window = history[currentUIType].Pop();
-        settingButtons(window, true);
+        Debug.Log(history[currentUIType].Count);
+        settingFrame(window, true);
         currentWindow = window;
     }
 
@@ -130,22 +138,22 @@ public class ButtonManager : MonoBehaviour
             return;
         }
 
-        settingButtons(currentWindow, false);
+        settingFrame(currentWindow, false);
         currentWindow.gameObject.SetActive(!closeWindow);
     }
 
     /// <summary>
-    /// ウィンドウ内のボタンの設定をします
+    /// フレームの設定をします
     /// </summary>
     /// <param name="window">操作するWindow</param>
     /// <param name="activate">ボタンをアクティブ化するか</param>
-    static void settingButtons(MyMenuFrame window, bool activate)
+    static void settingFrame(MyMenuFrame window, bool activate)
     {
         window.gameObject.SetActive(true);
-        window.OpenWindow();
         var buttons = window.GetComponentsInChildren<Button>();
         foreach (var button in buttons) {
             button.interactable = activate;
         }
+        window.OpenWindow();
     }
 }
