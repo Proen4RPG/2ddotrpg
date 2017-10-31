@@ -56,8 +56,7 @@ public class GV
 
     // ゲームデータを読み込むときは先にセーブデータのロードまたはnewGame で関数を初期化して使用
     static GameData gameData;
-    static public GameData GData 
-    {
+    static public GameData GData {
         get {
             return gameData;
         }
@@ -69,11 +68,9 @@ public class GV
         public int saveCount;
     }
     static SystemData systemData;
-    static public SystemData SData
-    {
+    static public SystemData SData {
         get {
-            if (systemData == null)
-            {
+            if (systemData == null) {
                 newGame();
             }
             return systemData;
@@ -93,15 +90,8 @@ public class GV
     /// <param name="slot">セーブするスロット(0はシステムデータ保存用)</param>
     static public void save(int slot = 1)
     {
-        gameData = new GameData();
-        gameData.playTime = 20;
-
-        gameData.Players = new List<PlayerParam>();
-        var player = new PlayerParam();
-        gameData.Players.Add(player);
-
-
-        SaveData.setClass("GameData", GData);
+        SaveData.setSlot(slot);
+        SaveData.setClass("GameData", gameData);
         SaveData.save();
     }
 
@@ -110,8 +100,6 @@ public class GV
         SaveData.setSlot(slot);
         SaveData.load();
         gameData = SaveData.getClass<GameData>("GameData", null);
-
-        Debug.Log(gameData.playTime);
     }
     #endregion
 
@@ -157,8 +145,9 @@ public class GV
                 newPlayer.Luc = (i + 1) * 10;
                 
                 gameData.Players.Add(newPlayer);
-
             }
+            PlayerManager.initialize();
+
         }
     }
 

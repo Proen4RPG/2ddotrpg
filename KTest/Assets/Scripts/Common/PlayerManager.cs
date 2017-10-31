@@ -16,7 +16,7 @@ public class PlayerManager
             playerParam = GV.GData.Players.First(param => {
                 return param.ID == playerID;
             });
-            // ここで同じセーブデータに保存されないデータをを読み込める
+            // ここで同じセーブデータに保存されないデータを読み込める
             // 読み込む際はIDを使用
 
             if (playerID == 0) {

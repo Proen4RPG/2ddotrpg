@@ -14,7 +14,7 @@ public class EquipmentManager
     /// 装備用のクラス
     /// </summary>
     [Serializable]
-    public class Equipment
+    public struct Equipment
     {
         public int ID;
         public string Name;
@@ -48,6 +48,14 @@ public class EquipmentManager
             }
             return equipmentManager;
         }
+    }
+
+    /// <summary>
+    /// クラスの初期化
+    /// </summary>
+    static public void initialize()
+    {
+        equipmentManager = new EquipmentManagerBase();
     }
 
     /// <summary>
@@ -96,7 +104,7 @@ public class EquipmentManager
     {
         return Array.AsReadOnly(
             manager.equipments.Values
-            .Where(equipment => type == equipment.Type)
+            .Where(equipment => equipment.ID != 0 && type == equipment.Type)
             .ToArray());
     }
 
