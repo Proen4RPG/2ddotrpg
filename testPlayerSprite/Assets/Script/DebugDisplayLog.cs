@@ -73,7 +73,7 @@ public class DebugDisplayLog : MonoBehaviour {
 	private void OnGUI( ) {
 		GUI.Label(
 			new Rect( 0f, 0f, Screen.width, Screen.height ),
-			"FPS: " + this.fps + "  FixedUpdate: " + this.fixedFps + "\n" + this.debugString );
+			"FPS: " + this.fps + "  FixedUpdate: " + this.fixedFps + "\n" /* + this.debugString */ );
 
 	}
 

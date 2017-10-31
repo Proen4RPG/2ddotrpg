@@ -10,6 +10,16 @@ using System.IO;
 */
 public class CSVLoader 
 {
+	// GetCSV_Key_Record 関数で id 属性のカウントをする為の変数の準備
+	static private int idIndexCnt;
+
+	// セッターおよびゲッター定義部
+	/// <summary>
+	/// @author Hironari Ushiyama
+	/// @biref GetCSV_Key_Record関数でカウントしたID属性をgetします
+	/// </summary>
+	static public int csvId { get { return idIndexCnt; } }
+
     /*===============================================================*/
     /**
     * @brief コンストラクタ
@@ -26,6 +36,7 @@ public class CSVLoader
     */
     public void Initialize ()
     {
+		idIndexCnt = 0;
     }
     /*===============================================================*/
 
@@ -195,6 +206,8 @@ public class CSVLoader
 				if ( header == "ID" ) {
 					// ID を元に Key 名を変更
 					name = record.GetField( header );
+					// ID 属性をカウントします
+					idIndexCnt++;
 
 				}
 				// ID 属性を元にキーネームを変更していく
