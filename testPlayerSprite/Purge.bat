@@ -17,3 +17,5 @@ for /R %%d in (Temp) do rmdir /S /Q "%%d"
 for /R %%d in (Obj) do rmdir /S /Q "%%d"
 
 for /R %%d in (.vs) do rmdir /S /Q "%%d"
+
+for /R %%d in (Save) do rmdir /S /Q "%%d"
