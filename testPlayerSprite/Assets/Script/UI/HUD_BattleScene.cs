@@ -1,58 +1,48 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
 /*===============================================================*/
-/// <summary>
-/// @brief BattleSceneオブジェクトにスクリプトを関連づけます
-/// @brief BattleSceneのステータス(UI{HUD})情報を操作するクラス
-/// @brief HPやMPなど・・・
-/// </summary>
-/*===============================================================*/
-public class HUD_BattleScene : PlayerManager {
+/// <summary>BattleSceneオブジェクトにスクリプトを関連づけます</summary>
+/// <remarks>BattleSceneのステータス(UI{HUD})情報を操作するクラス,HPやMPなど・・・</remarks>
+public class HUD_BattleScene : PlayerManagerCSV {
 
-	/* オブジェクト参照  ヒエラルキーから, drag & drop でオブジェクトを指定します */
-	/* BattleScene オブジェクトに スクリプトが関連づけられています */
-	public GameObject lblName; /* BattleScene CharacterName */
-	public GameObject lblHP; /* BattleScene HP_BAR */
-	public GameObject slider; /* BattleScene HP_BAR_Slider */
-	public GameObject lblMP; /* BattleScene MP_BAR */
-	public GameObject sliderMP; /* BattleScene MP_BAR_Slider */
+	[SerializeField, TooltipAttribute( "キャラクターステータスプレハブ" )]
+	private GameObject characterStatusHUDPrefabObj;
+	[SerializeField, TooltipAttribute( "Messageプレハブ" )]
+	private GameObject messagePrefab;
+	[SerializeField, TooltipAttribute( "StandingPicturesプレハブ" )]
+	private GameObject spPrefab;
+	[SerializeField, TooltipAttribute( "ゲームキャンバス" )]
+	private GameObject canvasUi;
+	
+	// キャラクターステータスHUDを操作するための変数の準備
+	static public GameObject[ ] myHudObj;
+	static Sprite[ ] myHudImg;
 
-	public GameObject lblName2; /* BattleScene CharacterName */
-	public GameObject lblHP2; /* BattleScene HP_BAR */
-	public GameObject slider2; /* BattleScene HP_BAR_Slider */
-	public GameObject lblMP2; /* BattleScene MP_BAR */
-	public GameObject sliderMP2; /* BattleScene MP_BAR_Slider */
+	// メッセージプレハブを操作するための変数の準備
+	static public GameObject myMessageObj;
 
-	public GameObject lblName3; /* BattleScene CharacterName */
-	public GameObject lblHP3; /* BattleScene HP_BAR */
-	public GameObject slider3; /* BattleScene HP_BAR_Slider */
-	public GameObject lblMP3; /* BattleScene MP_BAR */
-	public GameObject sliderMP3; /* BattleScene MP_BAR_Slider */
+	// 立ち絵プレハブを操作するための変数の準備
+	static public GameObject mySpObj;
+	static Sprite[ ] mySpImg;
 
-	public GameObject lblName4; /* BattleScene CharacterName */
-	public GameObject lblHP4; /* BattleScene HP_BAR */
-	public GameObject slider4; /* BattleScene HP_BAR_Slider */
-	public GameObject lblMP4; /* BattleScene MP_BAR */
-	public GameObject sliderMP4; /* BattleScene MP_BAR_Slider */
+	// 更新用変数の準備
+	private float[ ] updateValHp; // HP 更新用変数
+	private float[ ] updateValMp; // MP 更新用変数
 
-	/* 更新用変数 */
-	private float valHP1; /* = SaveData.getInt( PlayerManager.KEY.Character01_HP.ToString( ), 0 ); */
-	private float valHP2; /* = SaveData.getInt( PlayerManager.KEY.Character02_HP.ToString( ), 0 ); */
-	private float valHP3;
-	private float valHP4;
+	// セッターおよびゲッター定義部
+	/// <summary>生成されたキャラクターHUDのゲームオブジェクトgetします</summary>
+	/// <remarks>初期化された後に値が入るので初期化関数などで呼ばないでください</remarks>
+	static public GameObject[ ] CharaHudGameObj { get { return myHudObj; } }
 
-	private float valMP1;
-	private float valMP2;
-	private float valMP3;
-	private float valMP4;
+	/// <summary>生成された立ち絵のゲームオブジェクトgetします</summary>
+	/// <remarks>初期化された後に値が入るので初期化関数などで呼ばないでください</remarks>
+	static public GameObject StandPicture { get { return mySpObj; } }
 
 	/*===============================================================*/
-	/// <summary>
-	/// @brief UnityEngine ライフサイクルによる初期化
-	/// </summary>
+	/// <summary>UnityEngineライフサイクルによる初期化</summary>
 	void Start( ) {
 		// 初期化関数を呼び出す
 		Initialize( );
@@ -62,116 +52,182 @@ public class HUD_BattleScene : PlayerManager {
 	/*===============================================================*/
 
 	/*===============================================================*/
-	/// <summary>
-	/// @brief 初期化
-	/// </summary>
+	/// <summary>初期化</summary>
 	void Initialize( ) {
-		// 取りあえずの実装 キャラ入れ替えには, 対応していない
-		valHP1 = Player1.HP;
-		valHP2 = Player2.HP;
-		valHP3 = Player3.HP;
-		valHP4 = Player4.HP;
+		// 更新用変数の初期化
+		updateValHp = new float[ ] { Player1.HP, Player2.HP, Player3.HP, Player4.HP };
+		updateValMp = new float[ ] { Player1.MP, Player2.MP, Player3.MP, Player4.MP };
+		// キャラクター画像の読み込み
+		myHudImg = Resources.LoadAll<Sprite>( "Images/Character/HUD/" );
+		// キャラクターステータス HUD の作成
+		myHudObj = CreateCharacterStatusHUD( -150.0f, -250.0f, 3 );
+		for( int i = 0; i < myHudObj.Length; i++ ) {
+			// Sprite 画像をコンポーネントにセットする
+			ApplyCharaSprite( i, i );
+			// HP の初期化
+			ApplyCharaHP( i, updateValHp[ i ] );
+			// MP の初期化
+			ApplyCharaMP( i, updateValMp[ i ] );
 
-		valMP1 = Player1.MP;
-		valMP2 = Player2.MP;
-		valMP3 = Player3.MP;
-		valMP4 = Player4.MP;
-
-		/* 各 Component の登録と関連づけ */
-		/*************************************************************/
-		/* NAME */
-		Text TxtName = lblName.GetComponent<Text>( );
-
-		/* HP */
-		Text lblHPText = lblHP.GetComponent<Text>( );
-		Slider barValue = slider.GetComponent<Slider>( );
-
-		/* MP */
-		Text lblMPText = lblMP.GetComponent<Text>( );
-		Slider barValueMP = sliderMP.GetComponent<Slider>( );
-		/************************************************************/
-		/* NAME */
-		Text TxtName2 = lblName2.GetComponent<Text>( );
-
-		/* HP */
-		Text lblHPText2 = lblHP2.GetComponent<Text>( );
-		Slider barValue2 = slider2.GetComponent<Slider>( );
-
-		/* MP */
-		Text lblMPText2 = lblMP2.GetComponent<Text>( );
-		Slider barValueMP2 = sliderMP2.GetComponent<Slider>( );
-		/*************************************************************/
-		/* NAME */
-		Text TxtName3 = lblName3.GetComponent<Text>( );
-
-		/* HP */
-		Text lblHPText3 = lblHP3.GetComponent<Text>( );
-		Slider barValue3 = slider3.GetComponent<Slider>( );
-
-		/* MP */
-		Text lblMPText3 = lblMP3.GetComponent<Text>( );
-		Slider barValueMP3 = sliderMP3.GetComponent<Slider>( );
-		/*************************************************************/
-		/* NAME */
-		Text TxtName4 = lblName4.GetComponent<Text>( );
-
-		/* HP */
-		Text lblHPText4 = lblHP4.GetComponent<Text>( );
-		Slider barValue4 = slider4.GetComponent<Slider>( );
-
-		/* MP */
-		Text lblMPText4 = lblMP4.GetComponent<Text>( );
-		Slider barValueMP4 = sliderMP4.GetComponent<Slider>( );
-		/*************************************************************/
-
-		/* 関連づけたコンポーネントの初期化 */
-		// 取りあえずの実装 キャラ入れ替えには, 対応していない
-		TxtName.text = Player1._Player1;
-		barValue.maxValue = valHP1; /* HP 最大値 */
-		lblHPText.text = "HP" + valHP1 + "/" + barValue.maxValue; /* max.Value は, level up による HP 最大値変動でロジックを変更するかも */
-		barValue.value = valHP1;
-		barValueMP.maxValue = valMP1; /* MP 最大値 */
-		lblMPText.text = "MP" + valMP1 + "/" + barValueMP.maxValue; /* max.Value は, level up による HP 最大値変動でロジックを変更するかも */
-		barValueMP.value = valMP1;
-
-		TxtName2.text = Player2._Player2;
-		barValue2.maxValue = valHP2; /* HP 最大値 */
-		lblHPText2.text = "HP" + valHP2 + "/" + barValue2.maxValue; /* max.Value は, level up による HP 最大値変動でロジックを変更するかも */
-		barValue2.value = valHP2;
-		barValueMP2.maxValue = valMP2; /* MP 最大値 */
-		lblMPText2.text = "MP" + valMP2 + "/" + barValueMP2.maxValue; /* max.Value は, level up による HP 最大値変動でロジックを変更するかも */
-		barValueMP2.value = valMP2;
-
-		TxtName3.text = Player3._Player3;
-		barValue3.maxValue = valHP3; /* HP 最大値 */
-		lblHPText3.text = "HP" + valHP3 + "/" + barValue3.maxValue; /* max.Value は, level up による HP 最大値変動でロジックを変更するかも */
-		barValue3.value = valHP3;
-		barValueMP3.maxValue = valMP3; /* MP 最大値 */
-		lblMPText3.text = "MP" + valMP3 + "/" + barValueMP3.maxValue; /* max.Value は, level up による HP 最大値変動でロジックを変更するかも */
-		barValueMP3.value = valMP3;
-
-		TxtName4.text = Player4._Player4;
-		barValue4.maxValue = valHP4; /* HP 最大値 */
-		lblHPText4.text = "HP" + valHP4 + "/" + barValue4.maxValue; /* max.Value は, level up による HP 最大値変動でロジックを変更するかも */
-		barValue4.value = valHP4;
-		barValueMP4.maxValue = valMP4; /* MP 最大値 */
-		lblMPText4.text = "MP" + valMP4 + "/" + barValueMP4.maxValue; /* max.Value は, level up による HP 最大値変動でロジックを変更するかも */
-		barValueMP4.value = valMP4;
+		}
+		// MessageUI の作成
+		myMessageObj = CreateMessage( -100.0f, 253.0f, false );
+		// 立ち絵の作成
+		mySpObj = CreateStandPicture( );
 
 
 	}
 	/*===============================================================*/
 
 	/*===============================================================*/
-	/// <summary>
-	/// @brief UnityEngine ライフサイクルによって毎フレーム呼ばれます
-	/// </summary>
+	/// <summary>UnityEngineライフサイクルによって毎フレーム呼ばれます</summary>
 	void Update () {
-		Text lblHPText = lblHP.GetComponent<Text>( );
-		Slider barValue = slider.GetComponent<Slider>( );
-		if ( valHP1 < barValue.maxValue ) valHP1 += 0.01f; /* slider 更新テスト */
-		lblHPText.text = "HP" + valHP1 + "/" + barValue.maxValue; /* max.Value は, level up による HP 最大値変動でロジックを変更するかも */
-		barValue.value = valHP1;
+
+	}
+	/*===============================================================*/
+
+	/*===============================================================*/
+	/// <summary>キャラクターステータスHUDの作成を行います</summary>
+	/// <param name="initializePositionX">キャラクターステータスHUDの生成位置(X軸)</param>
+	/// <param name="initializePositionY">キャラクターステータスHUDの生成位置(Y軸)</param>
+	/// <param name="index">キャラクターステータスHUDの複製数,通常3を指定</param>
+	/// <returns>生成元および生成したゲームオブジェクトを返します</returns>
+	private GameObject[ ] CreateCharacterStatusHUD( float initializePositionX, float initializePositionY, int index ) {
+		GameObject prefabObj = ( GameObject )Instantiate( characterStatusHUDPrefabObj );
+		GameObject[ ] prefabAllObj = new GameObject[ index + 1 ];
+		int prefabAllObjCnt = 1; // 0 番目にはオリジナルが入るので 1 からスタート
+		prefabObj.transform.GetChild( 0 ).gameObject.name = "Character0"; // コピー元のオリジナルの name を変更
+		prefabAllObj[ 0 ] = prefabObj.transform.GetChild( 0 ).gameObject; // コピー元のオリジナルを格納
+		prefabObj.transform.SetParent( canvasUi.transform, false );
+		prefabObj.transform.localPosition = new Vector3 ( initializePositionX, initializePositionY, 0.0f );
+		HorizontalLayoutGroup hlg = prefabObj.GetComponent<HorizontalLayoutGroup>( );
+		for( int i = 0; i < index; i++ ) {
+			if( i < prefabAllObj.Length ) { // PlayerSprite 残り分を入れる
+				GameObject prefabHud = ( GameObject )Instantiate( prefabObj.transform.GetChild( 0 ).gameObject );
+				prefabHud.name = "Character" + prefabAllObjCnt; // コピー先のオブジェクト名を変更
+				prefabHud.transform.SetParent( hlg.transform, false );
+				prefabAllObj[ prefabAllObjCnt ] = prefabHud; // コピー先のオブジェクトを格納
+				prefabAllObjCnt++; // 入れ物変更
+
+			}
+
+		}
+		return prefabAllObj;
+
+
+	}
+	/*===============================================================*/
+
+	/*===============================================================*/
+	/// <summary>Messageプレハブの作成を行います</summary>
+	/// <param name="initPosX">MessageUIの生成位置(X軸)</param>
+	/// <param name="initPosY">MessageUIの生成位置(Y軸)</param>
+	/// <param name="isVisible">MessageUIを表示するか否か,true:表示,false:非表示</param>
+	/// <param name="message">生成時の初期メッセージを指定します</param>
+	private GameObject CreateMessage( float initPosX, float initPosY, bool isVisible, string message = "init message" ) {
+		GameObject prefabObj = ( GameObject )Instantiate( messagePrefab );
+		prefabObj.transform.SetParent( canvasUi.transform, false );
+		prefabObj.transform.localPosition = new Vector3( initPosX, initPosY, 0.0f );
+		prefabObj.gameObject.SetActive( isVisible );
+		prefabObj.transform.GetChild( 0 ).GetChild( 0 ).GetComponent<Text>( ).text = message;
+		return prefabObj;
+
+
+	}
+	/*===============================================================*/
+
+	/*===============================================================*/
+	/// <summary>立ち絵プレハブの作成を行います</summary>
+	/// <remarks>
+	/// ApplyStandPictureSprite関数を用いてspriteを画面上に出現されるため
+	/// 生成位置を画面外に設定しています
+	/// </remarks>
+	private GameObject CreateStandPicture( ) {
+		GameObject prefabObj = ( GameObject )Instantiate( spPrefab );
+		prefabObj.transform.SetParent( canvasUi.transform, false );
+		prefabObj.transform.localPosition = new Vector3( 500.0f, -500.0f, 0.0f );
+		return prefabObj;
+
+
+	}
+	/*===============================================================*/
+
+	/*===============================================================*/
+	/// <summary>キャラクターステータスHUDにおけるSprite画像を更新します</summary>
+	/// <remarks>Sprite画像はリソースフォルダにあるImages/Character/にある画像が配列で読み込まれています</remarks>
+	/// <param name="index">各キャラクターのSprite画像のどのキャラクターのSprite画像に適用するか</param>
+	/// <param name="index2">なんのSprite画像に適用するか</param> 
+	static public void ApplyCharaSprite( int index, int index2 ) {
+		// Sprite 画像をコンポーネントにセットする
+		myHudObj[ index ].transform.GetChild( 0 ).GetComponent<Image>( ).sprite = myHudImg[ index2 ];
+
+
+	}
+	/*===============================================================*/
+
+	/*===============================================================*/
+	/// <summary>キャラクターステータスHUDにおけるHPを更新します</summary>
+	/// <param name="index">各キャラクターのHPのどのキャラクターのHPに適用するか</param>
+	/// <param name="hp">適用させたいHPの値</param>
+	static public void ApplyCharaHP( int index, float hp ) {
+		// HP バー Slider コンポーネントの Value 更新
+		myHudObj[ index ].transform.GetChild( 1 ).GetComponent<Slider>( ).value = hp;
+		// HP Text コンポーネント更新
+		myHudObj[ index ].transform.GetChild( 1 ).GetChild( 2 ).GetComponent<Text>( ).text = "HP" + hp.ToString( ) + "/100";
+
+
+	}
+	/*===============================================================*/
+
+	/*===============================================================*/
+	/// <summary>キャラクターステータスHUDにおけるMPを更新します</summary>
+	/// <param name="index">各キャラクターのMPのどのキャラクターのMPに適用するか</param>
+	/// <param name="mp">適用させたいMPの値</param>
+	static public void ApplyCharaMP( int index, float mp ) {
+		// HP バー Slider コンポーネントの Value 更新
+		myHudObj[ index ].transform.GetChild( 2 ).GetComponent<Slider>( ).value = mp;
+		// HP Text コンポーネント更新
+		myHudObj[ index ].transform.GetChild( 2 ).GetChild( 2 ).GetComponent<Text>( ).text = "HP" + mp.ToString( ) + "/100";
+
+
+	}
+	/*===============================================================*/
+
+	/*===============================================================*/
+	/// <summary>生成されたMessageプレハブのテキストを更新します</summary>
+	/// <param name="message">適用したい文字列を入れます</param>
+	/// <param name="isVisible">MessageUIを表示するか否か,true:表示,false:非表示</param>
+	static public void ApplyMessageText( string message, bool isVisible = true ) {
+		myMessageObj.transform.GetChild( 0 ).GetChild( 0 ).GetComponent<Text>( ).text = message/* + "の攻撃"*/;
+		myMessageObj.gameObject.SetActive( isVisible );
+		if( isVisible ) {
+			// 1500ミリ秒後に自分自身を呼ぶ
+			Observable.Timer( TimeSpan.FromMilliseconds( 1500 ) )
+				.Subscribe( _ => ApplyMessageText( "", false /* 非表示状態にする */ ) );
+
+		}
+
+	}
+	/*===============================================================*/
+
+	/*===============================================================*/
+	/// <summary>生成された立ち絵プレハブの画像を更新します</summary>
+	/// <param name="posX">RootGameobject自身の位置(X軸)</param>
+	/// <param name="posY">RootGameObject自身の位置(Y軸)</param>
+	/// <param name="scaleX">sprite自身のスケール(X軸方向に拡大)</param>
+	/// <param name="scaleY">sprite自身のスケール(Y軸方向に拡大)</param>
+	/// <param name="index">読み込ませる画像,通常0～3を指定</param>
+	static public void ApplyStandPictureSprite( float posX, float posY, float scaleX, float scaleY, int index ) {
+		// 立ち絵画像を読み込みます
+		mySpImg = Resources.LoadAll<Sprite>( "Images/Character/StandPicture/" );
+		// sprite 画像の改造度が分からないため以下で対応させる ( 位置およびスケール )
+		mySpObj.transform.transform.localPosition = new Vector3( posX, posY, 0.0f);
+		mySpObj.transform.GetChild( 0 ).transform.localScale = new Vector3( scaleX, scaleY, 0.0f );
+		// 読み込まれた画像の配列 ( index 番目の sprite )
+		if( index != -1 ) { /* -1 の時, 画像を読み込まないようにする */
+			mySpObj.transform.GetChild( 0 ).GetComponent<SpriteRenderer>( ).sprite = mySpImg[ index ];
+
+		}
 
 
 	}
