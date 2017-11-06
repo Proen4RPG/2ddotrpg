@@ -118,7 +118,7 @@ GameObject:
   - component: {fileID: 751323481}
   - component: {fileID: 751323480}
   m_Layer: 0
-  m_Name: Black_Sprite
+  m_Name: White_Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -156,7 +156,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 7e7498a543f545441bf362f88538748b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 25d00af9fa8902243a2edca5ed50ccab, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -535,7 +535,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aba28389471b20a4883d5cec619598d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MOVE_SPEED: 3
 --- !u!114 &1657283463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -547,7 +546,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb58c465044220941ad4ac1fbf831fd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MOVE_SPEED: 3
 --- !u!1 &1788319274
 GameObject:
   m_ObjectHideFlags: 0
@@ -667,7 +665,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   imgBack: {fileID: 1788319274}
-  fadeFlg: 0
 --- !u!1 &2071254422
 GameObject:
   m_ObjectHideFlags: 0
