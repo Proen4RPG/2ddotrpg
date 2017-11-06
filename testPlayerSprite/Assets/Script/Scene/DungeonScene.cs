@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
 
 /*===============================================================*/
-/// <summary>
-/// @brief ダンジョン管理クラス DungeonSceneオブジェクトにスクリプトを関連づけます
-/// </summary>
-/*===============================================================*/
+/// <summary>ダンジョン管理クラス</summary>
+/// <remarks>DungeonSceneオブジェクトにスクリプトを関連づけます</remarks>
 public class DungeonScene : MonoBehaviour {
 
 	[SerializeField, TooltipAttribute( "ダンジョンシーン背景" )]
@@ -13,9 +11,7 @@ public class DungeonScene : MonoBehaviour {
 	private int encounter = 0;
 
 	/*===============================================================*/
-	/// <summary>
-	/// @brief UnityEngine ライフサイクルによる初期化
-	/// </summary>
+	/// <summary>UnityEngineライフサイクルによる初期化 </summary>
 	void Awake( ) {
 		Initialize( );
 
@@ -24,40 +20,38 @@ public class DungeonScene : MonoBehaviour {
 	/*===============================================================*/
 
 	/*===============================================================*/
-	/// <summary>
-	/// @brief 初期化
-	/// </summary>
+	/// <summary> 初期化</summary>
 	void Initialize( ) {
 		// 呼び出されたときに, ゲーム状態を更新する
-		GameManager.SetGameState( GameManager.GameState.DUNGEON );
-		Debug.Log( "DungeonClass!" );
+		GameManager.SetGetGameState = GameManager.GameState.DUNGEON;
 
 
 	}
 	/*===============================================================*/
 
 	/*===============================================================*/
-	/// <summary>
-	/// @brief UnityEngine ライフサイクルによって毎フレーム呼ばれます
-	/// </summary>
+	/// <summary>UnityEngineライフサイクルによって毎フレーム呼ばれます </summary>
 	void Update( ) {
-		// 戦闘シーン移行の為のランダムエンカウントテストです
+		// 戦闘シーン移行の為のランダムエンカウント
 		if ( PlayerMover.GetMove == PlayerMover.MOVE_DIR.LEFT
 			|| PlayerMover.GetMove == PlayerMover.MOVE_DIR.RIGHT ) {
-			int test = ( int )Random.Range( 0.0f, 100.0f );
+			int rnd = ( int )Random.Range( 0.0f, 100.0f );
 			encounter++;
-			if ( test.Equals( 50 ) && encounter > 120 ) {
+			// player 一定移動距離 + 乱数が 50 の時
+			//Debug.Log( "<color='red'>乱数 : " + rnd + ", player 移動 : " + encounter + "</color>" );
+			if ( rnd.Equals( 50 ) && encounter > 120 ) {
 				encounter = 0;
 				fadeFlg = true;
-				Debug.Log( "ランダムエンカウントテスト" );
 
 			}
 
 		}
+		// player 移動中にエンカウント値に達したとき
 		if ( fadeFlg ) {
 			Color clr = GameManager.FadeOut( imgBack.GetComponent<SpriteRenderer>( ) );
+			// 画像が完全に透明になったら GameManager でシーン移行する
 			if ( clr.a <= 0.0f ) {
-				GameManager.SetGameState( GameManager.GameState.BATTLE );
+				GameManager.SetGetGameState = GameManager.GameState.BATTLE;
 				fadeFlg = false;
 
 			}

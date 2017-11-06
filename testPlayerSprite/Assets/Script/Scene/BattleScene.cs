@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
 
 /*===============================================================*/
-/// <summary>
-/// @brief 戦闘シーン管理クラス BattleSceneオブジェクトにスクリプトを関連づけます
-/// </summary>
-/*===============================================================*/
+/// <summary>戦闘シーン管理クラス</summary>
+/// <remarks>BattleSceneオブジェクトにスクリプトを関連づけます</remarks>
 public class BattleScene : MonoBehaviour {
 
 	[SerializeField, TooltipAttribute( "戦闘シーン背景" )]
@@ -12,9 +10,7 @@ public class BattleScene : MonoBehaviour {
 	private GameObject imgBack; // 戦闘シーン背景
 
 	/*===============================================================*/
-	/// <summary>
-	/// @brief UnityEngine ライフサイクルによる初期化
-	/// </summary>
+	/// <summary>UnityEngineライフサイクルによる初期化</summary>
 	void Awake( ) {
 		Initialize( );
 
@@ -23,11 +19,8 @@ public class BattleScene : MonoBehaviour {
 	/*===============================================================*/
 
 	/*===============================================================*/
-	/// <summary>
-	/// @brief 初期化
-	/// </summary>
+	/// <summary>初期化</summary>
 	void Initialize( ) {
-		Debug.Log( "BattleSceneClass!" );
 		// 場面転換前準備
 		SpriteRenderer renderer = imgBack.GetComponent<SpriteRenderer>( );
 		Color color = renderer.color;
@@ -39,9 +32,7 @@ public class BattleScene : MonoBehaviour {
 	/*===============================================================*/
 
 	/*===============================================================*/
-	/// <summary>
-	/// @brief UnityEngine ライフサイクルによって毎フレーム呼ばれます
-	/// </summary>
+	/// <summary>UnityEngineライフサイクルによって毎フレーム呼ばれます</summary>
 	void Update ( ) {
 		// 場面転換関数を呼ぶ
 		GameManager.FadeIn( imgBack.GetComponent<SpriteRenderer>( ) );

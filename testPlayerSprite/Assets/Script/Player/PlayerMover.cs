@@ -14,10 +14,13 @@ public class PlayerMover : MonoBehaviour {
 	private float MOVE_SPEED = 3.0f;
 	// プレイヤー移動速度
 	private float moveSpeed;
-	// 移動方向定義
+	/// <summary>プレイヤーの移動方向</summary>
 	public enum MOVE_DIR {
+		/// <summary>停止</summary>
 		STOP,
+		/// <summary>左移動</summary>
 		LEFT,
+		/// <summary>右移動</summary>
 		RIGHT
 
 
