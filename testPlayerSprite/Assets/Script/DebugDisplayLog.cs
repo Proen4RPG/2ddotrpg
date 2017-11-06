@@ -52,7 +52,7 @@ public class DebugDisplayLog : MonoBehaviour {
 		}
 
 		// structure debug string
-		this.debugString = "CSVデータキー : \n" /* str */;
+		//this.debugString = "CSVデータキー : \n" /* str */;
 		int count = DebugDisplayLog.displayLog.Count;
 
 		for ( int i = 0; i < DebugDisplayLog.displayLog.Count; i++ ) {
@@ -73,7 +73,7 @@ public class DebugDisplayLog : MonoBehaviour {
 	private void OnGUI( ) {
 		GUI.Label(
 			new Rect( 0f, 0f, Screen.width, Screen.height ),
-			"FPS: " + this.fps + "  FixedUpdate: " + this.fixedFps + "\n" /* + this.debugString */ );
+			"FPS: " + this.fps + "  FixedUpdate: " + this.fixedFps + "\n" + this.debugString );
 
 	}
 
