@@ -13,9 +13,7 @@ public class EnemyManager : MonoBehaviour {
 	private string[ ] CSV_EnemyStatusKeyData = new string[ 1024 ];
 
 	/*===============================================================*/
-	/// <summary>
-	/// @brief UnityEngine ライフサイクルによる初期化
-	/// </summary>
+	/// <summary>UnityEngineライフサイクルによる初期化</summary>
 	void Awake( ) {
 		// 初期化関数を呼び出す
 		Initialize( );
@@ -25,9 +23,7 @@ public class EnemyManager : MonoBehaviour {
 	/*===============================================================*/
 
 	/*===============================================================*/
-	/// <summary>
-	/// @brief 初期化
-	/// </summary>
+	/// <summary>初期化</summary>
 	public void Initialize( ) {
 		// CSV読み込み機能を使った配列へのデータ読み込み
 		CSVLoader loader = new CSVLoader( );
@@ -38,11 +34,9 @@ public class EnemyManager : MonoBehaviour {
 	/*===============================================================*/
 
 	/*===============================================================*/
-	/// <summary>
-	/// @brief Enemy のキーデータを元にキーに対するデータを取得します
-	/// @param string 例：Monster01_IDなどを指定します
-	/// @return GetPlayerStatusData 例:Monster01_IDに対するデータ
-	/// </summary>
+	/// <summary>Enemy のキーデータを元にキーに対するデータを取得します</summary>
+	/// <param name="key">例：Monster01_IDなどを指定します</param>
+	/// <returns>例:Monster01_IDに対するデータ</returns>
 	public string GetEnemyStatusData( string key ) {
 		// data を格納する変数
 		string str = "";
