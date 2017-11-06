@@ -7,9 +7,9 @@ public class StatusWindow : MonoBehaviour {
 
     private CharacterWindow characterWindow;
 
-    private PlayerManager.PlayerParameters param;
-    public PlayerManager.PlayerParameters Param
-    {
+    private PlayerManagerCSV.PlayerParameters param; // PlayerManagerCSV に変更を行いました
+	public PlayerManagerCSV.PlayerParameters Param /* PlayerManagerCSV に変更を行いました */
+	{
         get
         {
             return param;

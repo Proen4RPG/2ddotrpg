@@ -8,11 +8,13 @@ public class CharacterWindow : MonoBehaviour {
     private UI_Menu menu;
 
     [SerializeField]
-    private PlayerManager playerManager;
+    private PlayerManagerCSV playerManager; // PlayerManagerCSV に変更を行いました
 
-    private GameObject[] objList = new GameObject[4];  //キャラクター名を含むオブジェクト  //TODO キャラクターができ次第要素を増やす
-    private PlayerManager.PlayerParameters[] playerList = new PlayerManager.PlayerParameters[4];    //  キャラクター情報
-    public PlayerManager.PlayerParameters[] PlayerList { get { return playerList; } }
+	private GameObject[] objList = new GameObject[4];  //キャラクター名を含むオブジェクト  //TODO キャラクターができ次第要素を増やす
+	// PlayerManagerCSV に変更を行いました
+    private PlayerManagerCSV.PlayerParameters[] playerList = new PlayerManagerCSV.PlayerParameters[4];    //  キャラクター情報
+	// PlayerManagerCSV に変更を行いました
+    public PlayerManagerCSV.PlayerParameters[] PlayerList { get { return playerList; } }
 
     [SerializeField]
     private GameObject StatusWindow;
